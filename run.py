@@ -74,16 +74,18 @@ with app.app_context():
     except socket.gaierror:
         local_ip = '127.0.0.1'
 
+    port = int(os.environ.get('PORT', 8001))
     print('-' * 50)
     print('Ung dung dang chay!')
-    print(f'  http://{local_ip}:8001')
-    print(f'  http://{hostname}:8001')
+    print(f'  http://{local_ip}:{port}')
+    print(f'  http://{hostname}:{port}')
     print('-' * 50)
 
 if __name__ == '__main__':
     debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    port = int(os.environ.get('PORT', 8001))
     if debug:
-        app.run(host='0.0.0.0', port=8001, debug=True)
+        app.run(host='0.0.0.0', port=port, debug=True)
     else:
         from waitress import serve
-        serve(app, host='0.0.0.0', port=8001)
+        serve(app, host='0.0.0.0', port=port)
