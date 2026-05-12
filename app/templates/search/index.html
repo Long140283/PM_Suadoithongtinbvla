@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container search-container">
+    <h1 class="mt-5 text-center">Tìm kiếm bệnh nhân</h1>
+    <form method="POST" action="{{ url_for('search.search') }}">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.patient_name.label(class="form-control-label") }}
+                {{ form.patient_name(class="form-control") }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.patient_code.label(class="form-control-label") }}
+                {{ form.patient_code(class="form-control") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="form-group col-md-6">
+                {{ form.start_date.label(class="form-control-label") }}
+                {{ form.start_date(class="form-control") }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.end_date.label(class="form-control-label") }}
+                {{ form.end_date(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group text-center mt-4">
+            {{ form.submit(class="btn btn-primary btn-lg") }}
+        </div>
+    </form>
+
+    {% if results %}
+        <h2 class="mt-5">Kết quả</h2>
+        <div class="accordion" id="patientAccordion">
+            {% for patient in results %}
+            <div class="card">
+                <div class="card-header" id="heading{{ patient.id }}">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ patient.id }}" aria-expanded="true" aria-controls="collapse{{ patient.id }}">
+                            {{ patient.full_name }} ({{ patient.patient_code }})
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse{{ patient.id }}" class="collapse" aria-labelledby="heading{{ patient.id }}" data-parent="#patientAccordion">
+                    <div class="card-body">
+                        <p><strong>Mã bệnh nhân:</strong> {{ patient.patient_code }}</p>
+                        <p><strong>Tên đầy đủ:</strong> {{ patient.full_name }}</p>
+                        <p><strong>Ngày sinh:</strong> {{ patient.date_of_birth.strftime('%d-%m-%Y') if patient.date_of_birth }}</p>
+                        <p><strong>Giới tính:</strong> {{ patient.gender }}</p>
+                        <p><strong>Địa chỉ:</strong> {{ patient.address }}</p>
+                        <p><strong>Khoa:</strong> {{ patient.department.name if patient.department }}</p>
+                        
+                        <h5 class="mt-4">Các biểu mẫu đã gửi</h5>
+                        {% if patient.form_submissions %}
+                            <ul class="list-group">
+                                {% for submission in patient.form_submissions %}
+                                    <li class="list-group-item">
+                                        <a href="{{ url_for('patient.view_submission', submission_id=submission.id) }}">{{ submission.form.name }}</a> - Gửi lúc: {{ submission.submitted_at.strftime('%Y-%m-%d %H:%M:%S') }} - Trạng thái: {{ submission.status }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>Không có biểu mẫu nào được gửi.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% elif request.method == 'POST' %}
+        <h2 class="mt-5">Kết quả</h2>
+        <p>Không tìm thấy bệnh nhân nào khớp với tiêu chí tìm kiếm.</p>
+    {% endif %}
+</div>
+{% endblock %}

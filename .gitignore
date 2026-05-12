@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+.env
+
+# Databases
+*.db
+*.sqlite3
+
+# Backups and Data
+backups/
+appDataDir/
+scratch/
+
+# IDEs
+.cursor/
+.sixth/
+.vscode/
+.idea/
+
+# Large Files / Assets
+*.png
+*.docx
+*.exe
+*.dll
+*.so
+
+# System Files
+Thumbs.db
+Desktop.ini

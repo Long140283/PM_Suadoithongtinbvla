@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* HIS Classic Style overrides */
+    body {
+        background-color: #f0f0f0;
+    }
+    
+    .his-dashboard {
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 12px;
+        height: calc(100vh - 80px);
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    /* Toolbar */
+    .his-toolbar {
+        background: linear-gradient(to bottom, #f5f6f8, #d4d0c8);
+        border: 1px solid #a0a0a0;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 5px;
+        color: #000;
+    }
+    .his-toolbar-title {
+        font-weight: bold;
+        color: #0055aa;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    .his-btn {
+        background: #e1e1e1;
+        border: 1px solid #8e8f8f;
+        padding: 3px 10px;
+        font-size: 12px;
+        color: #000;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 2px;
+    }
+    .his-btn:hover {
+        background: #eef2f5;
+        border-color: #3399ff;
+    }
+    .his-input {
+        border: 1px solid #8e8f8f;
+        padding: 2px 4px;
+        font-size: 12px;
+        height: 24px;
+    }
+
+    /* Tabs */
+    .his-tabs-container {
+        display: flex;
+        border-bottom: 1px solid #a0a0a0;
+        background: transparent;
+    }
+    .his-tab {
+        padding: 4px 15px;
+        background: #e0e0e0;
+        border: 1px solid #a0a0a0;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        color: #333;
+    }
+    .his-tab.active {
+        background: #fff;
+        font-weight: bold;
+        position: relative;
+        top: 1px;
+        border-bottom: 1px solid #fff;
+        color: #0055aa;
+    }
+
+    /* Main Content Area */
+    .his-main-area {
+        display: flex;
+        flex-grow: 1;
+        gap: 5px;
+        min-height: 0;
+    }
+    
+    .his-panel {
+        background: #fff;
+        border: 1px solid #a0a0a0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .his-left-panel {
+        width: 40%;
+        min-width: 350px;
+    }
+
+    .his-right-panel {
+        flex-grow: 1;
+        position: relative;
+    }
+
+    /* Table */
+    .his-table-wrapper {
+        overflow-y: auto;
+        flex-grow: 1;
+        background: #fff;
+    }
+    .his-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    .his-table th {
+        background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        border: 1px solid #a0a0a0;
+        padding: 4px 5px;
+        text-align: left;
+        font-weight: normal;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        white-space: nowrap;
+        color: #000;
+    }
+    .his-table td {
+        border: 1px solid #d0d0d0;
+        border-left: none;
+        border-right: 1px solid #e0e0e0;
+        padding: 4px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #000;
+    }
+    .his-table tr {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .his-table tr:hover {
+        background-color: #e5f3fb;
+        cursor: pointer;
+    }
+    .his-table tr.active {
+        background-color: #cce8ff;
+    }
+
+    /* Column Widths */
+    .col-stt { width: 35px; text-align: center; }
+    .col-code { width: 85px; }
+    .col-name { width: auto; }
+    .col-dept { width: 110px; }
+    .col-time { width: 100px; }
+
+    /* Badges / Status colors in table row if needed */
+    .row-pending td { color: #856404; font-weight: bold; }
+    .row-rejected td { color: #721c24; text-decoration: line-through; }
+    .row-approved td { color: #155724; }
+
+    /* Right panel header */
+    .his-detail-header {
+        background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        padding: 4px 8px;
+        font-weight: bold;
+        border-bottom: 1px solid #a0a0a0;
+        color: #000;
+    }
+
+    #detail-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+    
+    .loader-container {
+        position: absolute;
+        top: 25px; /* below header */
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 10;
+    }
+
+    /* Animation for new requests */
+    @keyframes newly-added {
+        0% { background-color: #ffeeba; }
+        100% { background-color: transparent; }
+    }
+    .new-row {
+        animation: newly-added 2s ease;
+    }
+    @keyframes ring {
+        0% { transform: rotate(0); }
+        10% { transform: rotate(15deg); }
+        20% { transform: rotate(-10deg); }
+        30% { transform: rotate(5deg); }
+        40% { transform: rotate(-5deg); }
+        50% { transform: rotate(0); }
+        100% { transform: rotate(0); }
+    }
+    .ringing {
+        animation: ring 0.5s infinite;
+        color: #e74a3b !important;
+    }
+</style>
+
+<div class="container-fluid" style="padding: 0;">
+<div class="his-dashboard">
+    <!-- Toolbar -->
+    <div class="his-toolbar">
+        <div class="his-toolbar-title">Trang quản trị</div>
+        <div>Xin chào, <strong>{{ current_user.username }}</strong></div>
+        <div style="flex-grow: 1;"></div>
+        
+        <form method="GET" action="{{ url_for('admin.dashboard') }}" style="display: flex; align-items: center; gap: 5px; margin: 0;">
+            <label for="selected_date" style="margin: 0; color: #000;">Ngày:</label>
+            <input type="date" id="selected_date" name="selected_date" class="his-input" value="{{ selected_date }}">
+            <button type="submit" class="his-btn"><i class="fas fa-search"></i> Xem</button>
+            <button type="submit" name="show_all" value="true" class="his-btn"><i class="fas fa-list"></i> Xem tất cả</button>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="his-main-area">
+        <!-- Left Panel -->
+        <div class="his-panel his-left-panel">
+            <div class="his-tabs-container">
+                <div class="his-tab active filter-tab" data-filter="all">Tất cả</div>
+                <div class="his-tab filter-tab" data-filter="pending">Chưa duyệt</div>
+                <div class="his-tab filter-tab" data-filter="approved">Đã duyệt</div>
+                <div class="his-tab filter-tab" data-filter="rejected">Từ chối</div>
+            </div>
+            
+            <div class="his-table-wrapper">
+                <table class="his-table">
+                    <thead>
+                        <tr>
+                            <th class="col-stt">STT</th>
+                            <th class="col-code">Mã BN</th>
+                            <th class="col-name">Tên Bệnh Nhân</th>
+                            <th class="col-dept">Khoa</th>
+                            <th class="col-time">Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-tbody">
+                        {% if all_requests %}
+                            {% for req in all_requests %}
+                                {% set status_val = 'pending' if 'pending' in req.status else ('rejected' if 'rejected' in req.status else 'approved') %}
+                                {% set row_class = 'row-pending' if status_val == 'pending' else ('row-rejected' if status_val == 'rejected' else 'row-approved') %}
+                                
+                                {% set view_url = url_for('patient.show_dynamic_form_submission', submission_id=req.id) %}
+
+                                <tr class="request-row {{ row_class }}" data-status="{{ status_val }}" data-id="{{ req.id }}" onclick="loadDetail('{{ view_url }}', this)">
+                                    <td class="col-stt text-center">{{ loop.index }}</td>
+                                    <td class="col-code">{{ req.patient_code or 'N/A' }}</td>
+                                    <td class="col-name">{{ req.patient_name or 'Bệnh nhân' }}</td>
+                                    <td class="col-dept">{{ req.department or 'N/A' }}</td>
+                                    <td class="col-time">{{ req.request_date.strftime('%d/%m %H:%M') if req.request_date else '' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr id="no-request-row">
+                                <td colspan="5" style="text-align: center; color: #666; padding: 10px;">Không có yêu cầu nào.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="his-panel his-right-panel">
+            <div class="his-detail-header">
+                THÔNG TIN CHI TIẾT
+            </div>
+            
+            <div id="detail-placeholder" style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; height: 100%;">
+                <i class="fas fa-mouse-pointer fa-3x mb-2" style="color: #ccc;"></i>
+                <div>Chọn một yêu cầu bên trái để xem chi tiết</div>
+            </div>
+            
+            <div class="loader-container d-none" id="detail-loader">
+                <div class="spinner-border text-primary spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
+            <iframe id="detail-iframe" class="d-none" title="Chi tiết yêu cầu"></iframe>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Filtering logic
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            document.querySelectorAll('.request-row').forEach(row => {
+                if (filterValue === 'all') {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    if (row.getAttribute('data-status') === filterValue) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Recalculate STT
+            let stt = 1;
+            document.querySelectorAll('.request-row').forEach(row => {
+                if(row.style.display !== 'none') {
+                    row.querySelector('.col-stt').innerText = stt++;
+                }
+            });
+        });
+    });
+
+    // Load detail into iframe
+    function loadDetail(url, rowElement) {
+        if (!url) return;
+
+        document.querySelectorAll('.request-row').forEach(r => r.classList.remove('active'));
+        rowElement.classList.add('active');
+
+        document.getElementById('detail-placeholder').classList.add('d-none');
+        const iframe = document.getElementById('detail-iframe');
+        const loader = document.getElementById('detail-loader');
+        
+        iframe.classList.add('d-none');
+        loader.classList.remove('d-none');
+
+        const embedUrl = url.includes('?') ? `${url}&embed=1` : `${url}?embed=1`;
+        iframe.src = embedUrl;
+
+        iframe.onload = function() {
+            iframe.classList.remove('d-none');
+            loader.classList.add('d-none');
+        };
+    }
+
+    // --- REAL-TIME POLLING ---
+    let latestId = 0;
+    document.querySelectorAll('.request-row').forEach(row => {
+        let idStr = row.getAttribute('data-id');
+        if (idStr) {
+            let id = parseInt(idStr, 10);
+            if (id > latestId) latestId = id;
+        }
+    });
+
+    const bellIcon = document.querySelector('#notificationDropdown i.fa-bell');
+    const badgeSpan = document.querySelector('#notificationDropdown .badge');
+
+    function checkNewRequests() {
+        fetch('{{ url_for("admin.api_admin_pending") }}?since_id=' + latestId)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.requests && data.requests.length > 0) {
+                    data.requests.forEach(req => {
+                        if (req.id > latestId) latestId = req.id;
+                        prependNewRequest(req);
+                    });
+
+                    if (bellIcon) bellIcon.classList.add('ringing');
+                    setTimeout(() => bellIcon && bellIcon.classList.remove('ringing'), 3000);
+
+                    let currentCount = badgeSpan ? parseInt(badgeSpan.innerText || "0", 10) : 0;
+                    let newCount = currentCount + data.requests.length;
+
+                    if (badgeSpan) {
+                        badgeSpan.innerText = newCount;
+                    } else {
+                        const bellBtn = document.querySelector('#notificationDropdown');
+                        if (bellBtn) {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'badge bg-danger';
+                            newBadge.innerText = newCount;
+                            bellBtn.appendChild(newBadge);
+                        }
+                    }
+                }
+            })
+            .catch(err => console.error("Polling error:", err));
+    }
+
+    function prependNewRequest(req) {
+        const tbody = document.getElementById('requests-tbody');
+        const noMsg = document.getElementById('no-request-row');
+        if (noMsg) noMsg.remove();
+
+        const tr = document.createElement('tr');
+        tr.className = 'request-row row-pending new-row';
+        tr.setAttribute('data-status', 'pending');
+        tr.setAttribute('data-id', req.id);
+        tr.onclick = function() { loadDetail(req.view_url, this); };
+
+        tr.innerHTML = `
+            <td class="col-stt text-center">-</td>
+            <td class="col-code">${req.patient_code || 'N/A'}</td>
+            <td class="col-name">${req.patient_name || 'Bệnh nhân'}</td>
+            <td class="col-dept">${req.department || 'N/A'}</td>
+            <td class="col-time">${req.formatted_date || ''}</td>
+        `;
+
+        tbody.insertBefore(tr, tbody.firstChild);
+        
+        // Recalculate STT if current tab matches
+        const activeTab = document.querySelector('.his-tab.active').getAttribute('data-filter');
+        if (activeTab === 'all' || activeTab === 'pending') {
+            let stt = 1;
+            document.querySelectorAll('.request-row').forEach(row => {
+                if(row.style.display !== 'none') {
+                    row.querySelector('.col-stt').innerText = stt++;
+                }
+            });
+        } else {
+            tr.style.display = 'none';
+        }
+    }
+
+    setInterval(checkNewRequests, 4000);
+</script>
+{% endblock %}

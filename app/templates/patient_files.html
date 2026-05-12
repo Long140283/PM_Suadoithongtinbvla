@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Tệp bệnh nhân - {{ patient.full_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Tệp đính kèm của {{ patient.full_name }}</h2>
+        <a href="{{ url_for('patient.list') }}" class="btn btn-secondary">Quay lại danh sách</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Thông tin bệnh nhân</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Mã bệnh nhân:</strong> {{ patient.patient_code }}</p>
+            <p><strong>Khoa:</strong> {{ patient.department }}</p>
+            <p><strong>BHYT:</strong> {{ patient.bhyt }}</p>
+            <p><strong>Trạng thái:</strong>
+                {% if patient.status == 'pending' %}
+                <span class="badge bg-warning">Chờ duyệt (Tài chính)</span>
+                {% elif patient.status == 'pending_approval' %}
+                <span class="badge bg-info">Chờ phê duyệt</span>
+                {% elif patient.status == 'approved' %}
+                <span class="badge bg-success">Đã duyệt</span>
+                {% elif patient.status == 'rejected' %}
+                <span class="badge bg-danger">Bị từ chối</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Tệp đính kèm ({{ patient.attachments|length }})</h5>
+        </div>
+        <div class="card-body">
+            {% if patient.attachments %}
+            <div class="list-group">
+                {% for attachment in patient.attachments %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-file-alt me-2"></i>
+                        <strong>{{ attachment.filename }}</strong>
+                        <br>
+                        <small class="text-muted">Upload: {{ attachment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('static', filename='uploads/' + attachment.file_path.split('uploads/')[-1].replace('\\', '/')) }}"
+                           target="_blank" class="btn btn-primary btn-sm me-2">
+                            <i class="fas fa-eye"></i> Xem tệp
+                        </a>
+                        <a href="{{ url_for('static', filename='uploads/' + attachment.file_path.split('uploads/')[-1].replace('\\', '/')) }}"
+                           download class="btn btn-success btn-sm">
+                            <i class="fas fa-download"></i> Tải xuống
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center text-muted">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <p>Không có tệp đính kèm nào.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

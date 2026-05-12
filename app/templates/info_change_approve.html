@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Phê duyệt Phiếu thay đổi thông tin</h3>
+                    <p class="text-center">ID: {{ request.id }} | Trạng thái: {{ request.status | capitalize }}</p>
+                </div>
+                <div class="card-body">
+                    <p><strong>Mã bệnh nhân:</strong> {{ request.patient_code }}</p>
+                    <p><strong>Tên bệnh nhân:</strong> {{ request.patient_name }}</p>
+                    <p><strong>Ngày sinh:</strong> {{ patient.date_of_birth.strftime('%d-%m-%Y') if patient and patient.date_of_birth else '' }}</p>
+                    <p><strong>Địa chỉ:</strong> {{ request.address }}</p>
+                    <p><strong>Khoa:</strong> {{ request.department }}</p>
+                    <p><strong>Số BHYT:</strong> {{ request.bhyt }}</p>
+                    <p><strong>Loại thông tin:</strong> {{ request.info_type }}</p>
+                    {% if request.info_type == 'other' %}
+                    <p><strong>Loại thông tin khác:</strong> {{ request.other_info_type }}</p>
+                    {% endif %}
+                    <p><strong>Nội dung thay đổi:</strong> {{ request.change_content }}</p>
+                    <p><strong>Lý do:</strong> {{ request.reason }}</p>
+                    <p><strong>Người yêu cầu:</strong> {{ request.requester }}</p>
+                    {% if request.attachment %}
+                    <p><strong>Tệp đính kèm:</strong> <a href="{{ url_for('static', filename=request.attachment.file_path.replace('app/static/', '')) }}" target="_blank">Xem tệp</a></p>
+                    {% endif %}
+
+                    {% if request.status == 'pending_admin' and current_user.is_admin %}
+                    <form method="POST" action="{{ url_for('patient.info_change_approve', id=request.id) }}" class="mt-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit" class="btn btn-success">Phê duyệt</button>
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Quay lại</a>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning mt-3">Phiếu này đã được xử lý hoặc bạn không có quyền phê duyệt.</div>
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Quay lại</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

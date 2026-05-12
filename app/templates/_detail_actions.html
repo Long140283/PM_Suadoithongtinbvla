@@ -1,0 +1,132 @@
+<style>
+    .his-action-bar {
+        background: linear-gradient(to bottom, #f5f6f8, #d4d0c8);
+        border: 1px solid #a0a0a0;
+        padding: 5px 10px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+    .his-action-btn {
+        background: #e1e1e1;
+        border: 1px solid #8e8f8f;
+        padding: 4px 12px;
+        font-size: 12px;
+        color: #000;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 2px;
+        text-decoration: none;
+    }
+    .his-action-btn:hover {
+        background: #eef2f5;
+        border-color: #3399ff;
+        color: #000;
+    }
+    .his-action-btn.btn-approve {
+        color: #107c41;
+        font-weight: bold;
+    }
+    .his-action-btn.btn-reject {
+        color: #e81123;
+        font-weight: bold;
+    }
+    
+    .his-rejection-panel {
+        border: 1px solid #e81123;
+        background: #fff;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    .his-rejection-title {
+        color: #e81123;
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .his-action-bar {
+            flex-direction: column;
+            gap: 10px;
+            align-items: stretch;
+            padding: 10px;
+        }
+        .his-action-bar div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+        .his-action-btn {
+            justify-content: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="his-action-bar shadow-sm">
+    <div>
+        <button onclick="window.history.back()" class="his-action-btn">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </button>
+    </div>
+    
+    <div style="display: flex; gap: 5px;">
+        {% if current_user.is_finance and request_obj.status == 'pending_finance' %}
+            <form action="{{ url_for('patient.finance_approve', submission_id=request_obj.id) }}" method="POST" style="display:inline; margin:0;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="his-action-btn btn-approve">
+                    <i class="fas fa-check"></i> Duyệt (Tài chính)
+                </button>
+            </form>
+            <button type="button" class="his-action-btn btn-reject" onclick="document.getElementById('rejectionSection').style.display = 'block';">
+                <i class="fas fa-times"></i> Từ chối
+            </button>
+        {% elif current_user.is_admin and request_obj.status == 'pending_admin' %}
+            <form action="{{ url_for('admin.approve_request', id=request_obj.id, request_type=request_type) }}" method="POST" style="display:inline; margin:0;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="his-action-btn btn-approve">
+                    <i class="fas fa-check"></i> Duyệt (Admin)
+                </button>
+            </form>
+            <button type="button" class="his-action-btn btn-reject" onclick="document.getElementById('rejectionSection').style.display = 'block';">
+                <i class="fas fa-times"></i> Từ chối
+            </button>
+        {% endif %}
+    </div>
+</div>
+
+<div id="rejectionSection" class="his-rejection-panel" style="display: none;">
+    <div class="his-rejection-title"><i class="fas fa-exclamation-triangle"></i> LÝ DO TỪ CHỐI</div>
+    {% if current_user.is_finance %}
+        <form action="{{ url_for('patient.finance_reject', submission_id=request_obj.id) }}" method="POST" style="margin:0;">
+    {% else %}
+        <form action="{{ url_for('admin.reject_request', id=request_obj.id, request_type=request_type) }}" method="POST" style="margin:0;">
+    {% endif %}
+        {{ rejection_form.hidden_tag() }}
+        <div style="margin-bottom: 10px;">
+            {{ rejection_form.reason(class="his-input", style="width: 100%; font-family: Tahoma, Arial, sans-serif; font-size: 12px; padding: 5px; border: 1px solid #8e8f8f; min-height: 80px;", placeholder="Nhập lý do từ chối tại đây...") }}
+        </div>
+        <div style="text-align: right;">
+            <button type="button" class="his-action-btn" onclick="document.getElementById('rejectionSection').style.display = 'none';">Hủy</button>
+            <button type="submit" class="his-action-btn btn-reject"><i class="fas fa-ban"></i> Xác nhận từ chối</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Logic to refresh parent dashboard if in iframe
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function() {
+            // For now, simple redirect will happen in iframe.
+            // A better way is to check if the action was successful on the next page load.
+        });
+    });
+</script>

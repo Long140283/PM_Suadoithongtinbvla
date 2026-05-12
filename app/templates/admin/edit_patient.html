@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Chỉnh sửa thông tin bệnh nhân</h1>
+    <form method="POST" action="{{ url_for('report.edit_patient', patient_id=patient.id) }}" class="form">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form.patient_code.label(class="form-label") }}
+                {{ form.patient_code(class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                {{ form.full_name.label(class="form-label") }}
+                {{ form.full_name(class="form-control") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.date_of_birth.label(class="form-label") }}
+                {{ form.date_of_birth(class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                {{ form.gender.label(class="form-label") }}
+                {{ form.gender(class="form-select") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                {{ form.department.label(class="form-label") }}
+                {{ form.department(class="form-select") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.phone.label(class="form-label") }}
+                {{ form.phone(class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.bhyt.label(class="form-label") }}
+                {{ form.bhyt(class="form-control") }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                {{ form.medical_history.label(class="form-label") }}
+                {{ form.medical_history(class="form-control", rows=5) }}
+            </div>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <a href="{{ url_for('report.report') }}" class="btn btn-secondary">Hủy</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

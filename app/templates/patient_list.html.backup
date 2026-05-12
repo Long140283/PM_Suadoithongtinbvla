@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách bệnh nhân{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Danh sách bệnh nhân</h2>
+    
+    <form method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-auto">
+            <a href="{{ url_for('patient.create') }}" class="btn btn-primary">Tạo bệnh nhân mới</a>
+        </div>
+        <div class="col-auto">
+            <label for="start_date" class="visually-hidden">Từ ngày</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request.args.get('start_date', '') }}" title="Từ ngày">
+        </div>
+        <div class="col-auto">
+            <label for="end_date" class="visually-hidden">Đến ngày</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request.args.get('end_date', '') }}" title="Đến ngày">
+        </div>
+        <div class="col">
+            <label for="search_term" class="visually-hidden">Tìm theo họ tên hoặc mã bệnh nhân</label>
+            <input type="text" class="form-control" id="search_term" name="search_term" value="{{ request.args.get('search_term', '') }}" placeholder="Tìm theo họ tên hoặc mã bệnh nhân">
+        </div>
+        {% if current_user.is_admin %}
+        <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="hide_approved" id="hideApproved" 
+                       {% if request.args.get('hide_approved') %}checked{% endif %} onchange="this.form.submit()">
+                <label class="form-check-label" for="hideApproved">
+                    Ẩn bệnh nhân đã phê duyệt
+                </label>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% if patients %}
+            {% for patient in patients %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="action-buttons mb-3">
+                            {% if current_user.is_finance and patient.status == 'pending' %}
+                            <a href="{{ url_for('patient.finance_approve', id=patient.id) }}" class="btn btn-info btn-sm">Duyệt</a>
+                            {% endif %}
+                            {% if current_user.is_admin and patient.status == 'pending_approval' %}
+                            <a href="{{ url_for('patient.approve', id=patient.id) }}" class="btn btn-success btn-sm me-1">Phê duyệt</a>
+                            {% endif %}
+                            {% if patient.attachments and (current_user.is_admin or current_user.is_finance or patient.user_id == current_user.id) %}
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#filesModal-{{ patient.id }}" title="Xem tệp đính kèm">
+                                Xem tệp
+                            </button>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3 patient-name-row">
+                            <h5 class="card-title mb-0">{{ patient.full_name }}</h5>
+                        </div>
+                        <p class="card-text"><strong>Mã bệnh nhân:</strong> {{ patient.patient_code }}</p>
+                        <p class="card-text"><strong>Khoa:</strong> {{ patient.department }}</p>
+                        <p class="card-text"><strong>BHYT:</strong> {{ patient.bhyt }}</p>
+                        <p class="card-text"><strong>Nội dung và lý do:</strong> {{ patient.medical_history }}</p>
+                        <p class="card-text"><strong>Email:</strong> {{ patient.email }}</p>
+                        <p class="card-text"><strong>Trạng thái:</strong>
+                            {% if patient.status == 'pending' %}
+                            <i class="fas fa-clock text-warning"></i> Chờ duyệt (Tài chính)
+                            {% elif patient.status == 'pending_approval' %}
+                            <i class="fas fa-clock text-info"></i> Chờ phê duyệt
+                            {% elif patient.status == 'approved' %}
+                            <i class="fas fa-check text-success"></i> Đã duyệt
+                            {% elif patient.status == 'rejected' %}
+                            <i class="fas fa-times text-danger"></i> Bị từ chối
+                            {% endif %}
+                        </p>
+                        <p class="card-text"><strong>Ngày gửi:</strong> {{ patient.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if patient.attachments and (current_user.is_admin or current_user.is_finance or patient.user_id == current_user.id) %}
+            <!-- Modal -->
+            <div class="modal fade" id="filesModal-{{ patient.id }}" tabindex="-1" aria-labelledby="filesModalLabel-{{ patient.id }}" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="filesModalLabel-{{ patient.id }}">Tệp đính kèm của: {{ patient.full_name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% if patient.attachments %}
+                    <div class="list-group">
+                        {% for attachment in patient.attachments %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-file-alt me-2"></i>
+                                <strong>{{ attachment.filename }}</strong>
+                                <br>
+                                <small class="text-muted">Upload: {{ attachment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('static', filename='uploads/' + attachment.file_path.split('uploads/')[-1].replace('\\', '/')) }}"
+                                   target="_blank" class="btn btn-primary btn-sm me-2">
+                                    <i class="fas fa-eye"></i> Xem
+                                </a>
+                                <a href="{{ url_for('static', filename='uploads/' + attachment.file_path.split('uploads/')[-1].replace('\\', '/')) }}"
+                                   download class="btn btn-success btn-sm">
+                                    <i class="fas fa-download"></i> Tải xuống
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>Không có tệp đính kèm nào.</p>
+                    {% endif %}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                {% if request.args.get('start_date') or request.args.get('end_date') or request.args.get('search_term') %}
+                    <p>Không tìm thấy bệnh nhân nào phù hợp với tiêu chí tìm kiếm.</p>
+                {% else %}
+                    <p>Không có bệnh nhân nào.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

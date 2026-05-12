@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Quản lý quyền cho Người dùng: <strong>{{ user.username }}</strong></h4>
+        </div>
+        <div class="card-body">
+            <p>Quản lý quyền chi tiết cho người dùng. Quyền được kế thừa từ vai trò sẽ được chọn và không thể thay đổi.</p>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                {% for category, permissions in all_permissions.items() %}
+                    <h5 class="mt-4">{{ category_translations.get(category, category) }}</h5>
+                    <div class="list-group">
+                        {% for permission in permissions %}
+                        <label class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <input class="form-check-input me-1" type="checkbox" name="permissions" value="{{ permission.name }}" id="perm_{{ permission.name }}" 
+                                       {% if permission.name in role_permissions %}checked disabled
+                                       {% elif permission.name in user.get_permission_names() %}checked
+                                       {% endif %}>
+                                {{ permission_translations.get(permission.name, permission.name) }}
+                            </span>
+                            {% if permission.name in role_permissions %}
+                            <span class="badge bg-info text-dark">Kế thừa từ vai trò</span>
+                            {% endif %}
+                        </label>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    <a href="{{ url_for('admin.manage_permissions') }}" class="btn btn-secondary">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

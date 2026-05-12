@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Chi tiết biểu mẫu</h1>
+    <p><strong>Tên biểu mẫu:</strong> {{ submission.form.name }}</p>
+    <p><strong>Người gửi:</strong> {{ submission.user.username }}</p>
+    <p><strong>Ngày gửi:</strong> {{ submission.submitted_at.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+    <p><strong>Trạng thái:</strong> {{ submission.status }}</p>
+
+    <h2>Thông tin đã điền</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Trường</th>
+                <th>Giá trị</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for value in submission.values %}
+            <tr>
+                <td>{{ value.field.label }}</td>
+                <td>{{ value.value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if submission.attachments %}
+        <h2>Tệp đính kèm</h2>
+        <ul>
+            {% for attachment in submission.attachments %}
+                <li><a href="{{ url_for('static', filename=attachment.file_path) }}" target="_blank">{{ attachment.filename }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary">Quay lại</a>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Tạo Biểu mẫu Động mới</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Sử dụng biểu mẫu này để tạo một biểu mẫu động mới. Bạn có thể bắt đầu từ đầu hoặc sao chép cấu trúc từ một biểu mẫu hiện có.</p>
+                    <form method="POST" action="{{ url_for('admin.create_form') }}" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><strong>Tên Biểu mẫu</strong></label>
+                            {{ form.name(class="form-control", id="name", placeholder="Nhập tên cho biểu mẫu của bạn") }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label"><strong>Mô tả</strong></label>
+                            {{ form.description(class="form-control", id="description", rows="3", placeholder="Cung cấp một mô tả ngắn gọn cho biểu mẫu") }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="copy_from" class="form-label"><strong>Sao chép từ Biểu mẫu đã có</strong></label>
+                            {{ form.copy_from(class="form-select", id="copy_from") }}
+                            <div class="form-text">Chọn một biểu mẫu để sao chép các trường của nó. Để trống để tạo một biểu mẫu mới.</div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">{{ form.submit.label.text }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

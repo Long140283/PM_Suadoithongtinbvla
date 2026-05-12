@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Quản lý quyền</h1>
+
+    <form method="post" action="{{ url_for('admin.manage_permissions') }}">
+        {{ form.hidden_tag() }}
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Quyền</th>
+                    <th class="text-center">Ẩn</th>
+                    {% for role in roles %}
+                        <th class="text-center">{{ role.name | capitalize }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for permission in permissions %}
+                    <tr>
+                        <td>{{ permission_translations.get(permission.name, permission.name) }}</td>
+                         <td class="text-center">
+                            <input type="checkbox" name="hidden_{{ permission.id }}" {% if permission.hidden %}checked{% endif %}>
+                        </td>
+                        {% for role in roles %}
+                            <td class="text-center">
+                                <input type="checkbox" name="perm_{{ role.id }}_{{ permission.id }}" {% if role in permission.roles %}checked{% endif %}>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Biểu mẫu</h1>
+        <a href="{{ url_for('admin.create_form') }}" class="btn btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tạo Biểu mẫu mới</a>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng số Biểu mẫu</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ forms|length }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-list-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Biểu mẫu trống</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ empty_forms_count }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách Biểu mẫu</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Tên Biểu mẫu</th>
+                            <th>Mô tả</th>
+                            <th class="text-center">Ngày tạo</th>
+                            <th class="text-center">Số trường</th>
+                            <th class="text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in forms %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('admin.edit_form', form_id=form.id) }}">{{ form.name }}</a>
+                                {% if not form.fields %}
+                                    <span class="badge badge-warning ml-2">Trống</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ form.description|truncate(80) }}</td>
+                            <td class="text-center">{{ form.created_at.strftime('%d-%m-%Y') }}</td>
+                            <td class="text-center">{{ form.fields_count }}</td>
+                            <td class="text-center">
+                                <a href="{{ url_for('admin.edit_form', form_id=form.id) }}" class="btn btn-info btn-circle btn-sm" title="Sửa & Thêm trường">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <form action="{{ url_for('admin.delete_form', form_id=form.id) }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger btn-circle btn-sm" title="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa biểu mẫu này không?');">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

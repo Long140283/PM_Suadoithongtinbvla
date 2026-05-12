@@ -1,0 +1,521 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* HIS Classic Style overrides */
+    body {
+        background-color: #f0f0f0;
+    }
+    .his-dashboard {
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 12px;
+        height: calc(100vh - 80px);
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    /* Toolbar */
+    .his-toolbar {
+        background: linear-gradient(to bottom, #f5f6f8, #d4d0c8);
+        border: 1px solid #a0a0a0;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 5px;
+        color: #000;
+    }
+    .his-toolbar-title {
+        font-weight: bold;
+        color: #0055aa;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    .his-btn {
+        background: #e1e1e1;
+        border: 1px solid #8e8f8f;
+        padding: 3px 10px;
+        font-size: 12px;
+        color: #000;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 2px;
+        text-decoration: none;
+    }
+    .his-btn:hover {
+        background: #eef2f5;
+        border-color: #3399ff;
+        color: #000;
+        text-decoration: none;
+    }
+    .his-input {
+        border: 1px solid #8e8f8f;
+        padding: 2px 4px;
+        font-size: 12px;
+        height: 24px;
+    }
+
+    /* Stats Panel */
+    .his-stats-container {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+    .his-stat-box {
+        flex: 1;
+        border: 1px solid #a0a0a0;
+        padding: 5px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .his-stat-box .title { font-weight: bold; }
+    .his-stat-box .value { font-size: 20px; font-weight: bold; }
+    
+    .stat-blue { background: #0078d7; color: #fff; }
+    .stat-green { background: #107c41; color: #fff; }
+    .stat-orange { background: #d83b01; color: #fff; } /* HIS style warning */
+
+    /* Main Content Area */
+    .his-main-area {
+        display: flex;
+        flex-grow: 1;
+        gap: 5px;
+        min-height: 0;
+    }
+    .his-panel {
+        background: #fff;
+        border: 1px solid #a0a0a0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .his-left-panel {
+        width: 50%;
+        min-width: 400px;
+    }
+    .his-right-panel {
+        flex-grow: 1;
+        position: relative;
+    }
+
+    /* Table */
+    .his-table-wrapper {
+        overflow-y: auto;
+        flex-grow: 1;
+        background: #fff;
+    }
+    .his-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    .his-table th {
+        background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        border: 1px solid #a0a0a0;
+        padding: 4px 5px;
+        text-align: left;
+        font-weight: normal;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        white-space: nowrap;
+        color: #000;
+    }
+    .his-table td {
+        border: 1px solid #d0d0d0;
+        border-left: none;
+        border-right: 1px solid #e0e0e0;
+        padding: 4px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #000;
+    }
+    .his-table tr {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .his-table tr:hover {
+        background-color: #e5f3fb;
+        cursor: pointer;
+    }
+    .his-table tr.active {
+        background-color: #cce8ff;
+    }
+
+    /* Column Widths */
+    .col-stt { width: 35px; text-align: center; }
+    .col-code { width: 80px; }
+    .col-name { width: auto; }
+    .col-type { width: 100px; }
+    .col-status { width: 90px; text-align: center; }
+
+    /* Right panel header */
+    .his-detail-header {
+        background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        padding: 4px 8px;
+        font-weight: bold;
+        border-bottom: 1px solid #a0a0a0;
+        color: #000;
+    }
+    .his-detail-body {
+        padding: 10px;
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 1px 4px;
+        font-size: 11px;
+        border-radius: 2px;
+    }
+    
+    /* Animation */
+    @keyframes ring {
+        0% { transform: rotate(0); }
+        10% { transform: rotate(15deg); }
+        20% { transform: rotate(-10deg); }
+        30% { transform: rotate(5deg); }
+        40% { transform: rotate(-5deg); }
+        50% { transform: rotate(0); }
+        100% { transform: rotate(0); }
+    }
+    .ringing {
+        animation: ring 0.5s infinite;
+        color: #e74a3b !important;
+    }
+    @keyframes flash-update {
+        0% { background-color: #ffff99; }
+        100% { background-color: transparent; }
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .his-dashboard {
+            height: auto;
+            min-height: calc(100vh - 80px);
+            padding: 2px;
+        }
+        .his-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+        .his-toolbar-title {
+            text-align: center;
+            margin-right: 0;
+        }
+        .his-stats-container {
+            flex-direction: column;
+            gap: 2px;
+        }
+        .his-stat-box {
+            padding: 8px;
+        }
+        .his-stat-box .value {
+            font-size: 16px;
+        }
+        .his-main-area {
+            flex-direction: column;
+            height: auto;
+        }
+        .his-left-panel {
+            width: 100%;
+            min-width: 0;
+            height: 400px; /* Fixed height for list on mobile */
+            margin-bottom: 5px;
+        }
+        .his-right-panel {
+            width: 100%;
+            min-height: 350px;
+        }
+        .his-table td, .his-table th {
+            padding: 8px 5px; /* Bigger touch targets */
+            font-size: 13px;
+        }
+        .col-code { width: 70px; }
+        .col-status { width: 80px; }
+    }
+</style>
+
+<div class="container-fluid" style="padding: 0;">
+    <div class="his-dashboard">
+        <!-- Toolbar -->
+        <div class="his-toolbar">
+            <div class="his-toolbar-title">Dashboard Nhân viên</div>
+            <div style="flex-grow: 1;"></div>
+            
+            <form method="GET" action="{{ url_for('patient.staff_dashboard') }}" style="display: flex; align-items: center; gap: 5px; margin: 0;">
+                {{ form.hidden_tag() }}
+                <label for="date" style="margin: 0; color: #000;">Chọn ngày:</label>
+                <input type="date" id="date" name="date" class="his-input" value="{{ request.args.get('date', today) }}">
+                <button type="submit" class="his-btn"><i class="fas fa-search"></i> Xem</button>
+                <a href="{{ url_for('patient.staff_dashboard', date=request.args.get('date', today), show_all='true') }}" class="his-btn"><i class="fas fa-list"></i> Xem danh sách</a>
+            </form>
+        </div>
+
+        <!-- Stats -->
+        <div class="his-stats-container">
+            <div class="his-stat-box stat-blue">
+                <div class="title">Yêu cầu đã tạo</div>
+                <div class="value">{{ patients_created_today }}</div>
+            </div>
+            <div class="his-stat-box stat-green">
+                <div class="title">Đã duyệt</div>
+                <div class="value">{{ approved_patients_today }}</div>
+            </div>
+            <div class="his-stat-box stat-orange">
+                <div class="title">Chưa duyệt</div>
+                <div class="value">{{ pending_patients_today }}</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="his-main-area">
+            <!-- Left Panel -->
+            <div class="his-panel his-left-panel">
+                <div class="his-detail-header">Danh sách yêu cầu ({{ selected_date }})</div>
+                <div class="his-table-wrapper">
+                    <table class="his-table" id="request-list">
+                        <thead>
+                            <tr>
+                                <th class="col-stt">STT</th>
+                                <th class="col-code">Mã BN</th>
+                                <th class="col-name">Tên Bệnh Nhân</th>
+                                <th class="col-type">Loại phiếu</th>
+                                <th class="col-status">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in all_requests %}
+                                {% set status_text = 'Chờ duyệt' %}
+                                {% set status_color = '#d83b01' %}
+                                {% if req.status in ['pending_finance', 'pending_admin'] %}
+                                    {% set status_text = 'Chờ duyệt' %}
+                                {% elif 'rejected' in req.status %}
+                                    {% set status_text = 'Bị từ chối' %}
+                                    {% set status_color = '#e81123' %}
+                                {% elif req.status == 'approved' %}
+                                    {% set status_text = 'Đã duyệt' %}
+                                    {% set status_color = '#107c41' %}
+                                {% else %}
+                                    {% set status_text = req.status %}
+                                {% endif %}
+
+                                <tr class="request-row" 
+                                    data-request-id="{{ req.id }}"
+                                    data-patient-code="{{ req.patient_code_display or 'N/A' }}"
+                                    data-patient-name="{{ req.patient_name_display or 'N/A' }}"
+                                    data-requester="{{ req.requester_name_display or 'N/A' }}"
+                                    data-request-type="{{ req.form.name if req.form else 'Phiếu động' }}"
+                                    data-status="{{ req.status }}"
+                                    data-rejection-reason="{{ req.rejection_reason or '' }}"
+                                    data-view-url="{{ url_for('patient.show_dynamic_form_submission', submission_id=req.id) }}"
+                                    data-edit-url="{{ url_for('patient.dynamic_form_edit', submission_id=req.id) }}"
+                                    data-delete-url="{{ url_for('patient.dynamic_form_delete', submission_id=req.id) }}">
+                                    <td class="col-stt">{{ loop.index }}</td>
+                                    <td class="col-code">{{ req.patient_code_display or 'N/A' }}</td>
+                                    <td class="col-name">{{ req.patient_name_display or 'N/A' }}</td>
+                                    <td class="col-type">{{ req.form.name if req.form else 'Phiếu động' }}</td>
+                                    <td class="col-status" style="color: {{ status_color }}; font-weight: bold;">
+                                        {{ status_text }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: #666; padding: 10px;">Không có yêu cầu nào.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="his-panel his-right-panel">
+                <div class="his-detail-header">Chi tiết yêu cầu</div>
+                <div class="his-detail-body" id="request-details-container">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #888;">
+                        <i class="fas fa-mouse-pointer fa-3x mb-2" style="color: #ccc;"></i>
+                        <div>Chọn một yêu cầu bên trái để xem chi tiết</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const requestList = document.getElementById('request-list');
+        const detailsContainer = document.getElementById('request-details-container');
+        
+        const csrfTokenInput = document.querySelector('input[name="csrf_token"]');
+        const csrfTokenValue = csrfTokenInput ? csrfTokenInput.value : '';
+
+        requestList.addEventListener('click', function(event) {
+            let target = event.target;
+            while (target && !target.classList.contains('request-row')) {
+                if (target === requestList) return; // click outside rows
+                target = target.parentElement;
+            }
+
+            if (target) {
+                // Remove active class from all items
+                const items = requestList.querySelectorAll('.request-row');
+                items.forEach(item => item.classList.remove('active'));
+
+                // Add active class to the clicked item
+                target.classList.add('active');
+
+                const dataset = target.dataset;
+
+                let statusText, statusColor;
+                if (dataset.status === 'pending_finance' || dataset.status === 'pending_admin') {
+                    statusText = 'Chờ duyệt';
+                    statusColor = '#d83b01'; // orange
+                } else if (dataset.status.includes('rejected')) {
+                    statusText = 'Bị từ chối';
+                    statusColor = '#e81123'; // red
+                } else if (dataset.status === 'approved') {
+                    statusText = 'Đã duyệt';
+                    statusColor = '#107c41'; // green
+                } else {
+                    statusText = dataset.status;
+                    statusColor = '#0055aa';
+                }
+                const statusBadge = `<span class="status-badge" style="background: ${statusColor}; color: white;">${statusText}</span>`;
+
+                let actionButtons = '';
+                if (dataset.status.includes('rejected')) {
+                    actionButtons = `
+                        <a href="${dataset.editUrl}" class="his-btn"><i class="fas fa-edit"></i> Sửa</a>
+                        <form action="${dataset.deleteUrl}" method="post" style="display:inline; margin-left: 5px;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa yêu cầu này không?');">
+                            <input type="hidden" name="csrf_token" value="${csrfTokenValue}">
+                            <button type="submit" class="his-btn" style="color: #e81123;"><i class="fas fa-trash"></i> Xóa</button>
+                        </form>
+                    `;
+                } else {
+                     actionButtons = `<a href="${dataset.viewUrl}" class="his-btn"><i class="fas fa-eye"></i> Xem chi tiết</a>`;
+                }
+
+                const detailsHtml = `
+                    <div style="margin-bottom: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
+                        <div style="font-size: 14px; font-weight: bold; color: #0055aa;">Chi tiết BN: ${dataset.patientName} (${dataset.patientCode})</div>
+                        <div>${statusBadge}</div>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                        <tr>
+                            <td style="width: 120px; font-weight: bold; padding: 4px 0;">Người yêu cầu:</td>
+                            <td>${dataset.requester}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; padding: 4px 0;">Loại yêu cầu:</td>
+                            <td>${dataset.requestType}</td>
+                        </tr>
+                        ${dataset.status.includes('rejected') ? `
+                        <tr>
+                            <td style="font-weight: bold; padding: 4px 0; color: #e81123;">Lý do từ chối:</td>
+                            <td style="color: #e81123;">${dataset.rejectionReason}</td>
+                        </tr>` : ''}
+                    </table>
+                    <div style="border-top: 1px solid #ccc; padding-top: 10px; text-align: right;">
+                        ${actionButtons}
+                    </div>
+                `;
+
+                detailsContainer.innerHTML = detailsHtml;
+
+                // On mobile, scroll to details
+                if (window.innerWidth <= 768) {
+                    detailsContainer.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // --- REAL-TIME POLLING AND NOTIFICATION LOGIC ---
+        let lastPollTime = new Date().toISOString();
+        const bellIcon = document.querySelector('#notificationDropdown i.fa-bell');
+        const badgeSpan = document.querySelector('#notificationDropdown .badge');
+
+        function checkNotifications() {
+            fetch('{{ url_for("patient.api_staff_notifications") }}?since_time=' + lastPollTime)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.notifications && data.notifications.length > 0) {
+                        data.notifications.forEach(notif => {
+                            updateListItemStatus(notif);
+                        });
+
+                        lastPollTime = data.server_time || new Date().toISOString();
+
+                        if (bellIcon) bellIcon.classList.add('ringing');
+                        setTimeout(() => bellIcon && bellIcon.classList.remove('ringing'), 3000);
+
+                        let currentCount = badgeSpan ? parseInt(badgeSpan.innerText || "0", 10) : 0;
+                        let newCount = currentCount + data.notifications.length;
+                        if (badgeSpan) {
+                            badgeSpan.innerText = newCount;
+                        } else {
+                            const bellBtn = document.querySelector('#notificationDropdown');
+                            if (bellBtn) {
+                                let badgeNode = bellBtn.querySelector('.badge');
+                                if (!badgeNode) {
+                                    badgeNode = document.createElement('span');
+                                    badgeNode.className = 'badge bg-danger';
+                                    bellBtn.appendChild(badgeNode);
+                                }
+                                badgeNode.innerText = newCount;
+                            }
+                        }
+                    } else if (data && data.server_time) {
+                        lastPollTime = data.server_time;
+                    }
+                })
+                .catch(err => console.error("Polling error:", err));
+        }
+
+        function updateListItemStatus(notif) {
+            const item = document.querySelector(`.request-row[data-request-id="${notif.id}"]`);
+            if (item) {
+                // If status actually changed
+                if (item.getAttribute('data-status') !== notif.status) {
+                    item.setAttribute('data-status', notif.status);
+                    item.classList.add('status-updated');
+                    setTimeout(() => item.classList.remove('status-updated'), 3000);
+                    
+                    const statusTd = item.querySelector('.col-status');
+                    if (statusTd) {
+                        let statusColor = '#d83b01';
+                        let statusText = 'Chờ duyệt';
+                        
+                        if (notif.status === 'approved') {
+                            statusColor = '#107c41';
+                            statusText = 'Đã duyệt';
+                        } else if (notif.status.includes('rejected')) {
+                            statusColor = '#e81123';
+                            statusText = 'Bị từ chối';
+                        }
+                        
+                        statusTd.style.color = statusColor;
+                        statusTd.innerText = statusText;
+                    }
+
+                    // If it is currently selected, trigger click to update details view
+                    if (item.classList.contains('active')) {
+                        item.click();
+                    }
+                }
+            }
+        }
+
+        setInterval(checkNotifications, 5000);
+    });
+</script>
+{% endblock %}

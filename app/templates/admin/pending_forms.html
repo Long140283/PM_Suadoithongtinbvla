@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Phê duyệt Biểu mẫu Động</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Các biểu mẫu đang chờ xử lý</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tên Biểu mẫu</th>
+                            <th>Mô tả</th>
+                            <th>Người tạo</th>
+                            <th>Ngày tạo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in forms %}
+                        <tr>
+                            <td>{{ form.name }}</td>
+                            <td>{{ form.description }}</td>
+                            <td>{{ form.user.username if form.user else 'N/A' }}</td>
+                            <td>{{ form.created_at.strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                            <td>
+                                <form action="{{ url_for('admin.approve_form', form_id=form.id) }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <button type="submit" class="btn btn-success btn-sm">Duyệt</button>
+                                </form>
+                                <form action="{{ url_for('admin.reject_form', form_id=form.id) }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

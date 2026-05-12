@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Quản lý Phiếu Thay Đổi Thông Tin</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Người gửi</th>
+            <th>Khoa</th>
+            <th>Loại thông tin</th>
+            <th>Trạng thái</th>
+            <th>Ngày gửi</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.requester_name }}</td>
+            <td>{{ req.department }}</td>
+            <td>{{ req.info_type }}</td>
+            <td>{{ req.status }}</td>
+            <td>{{ req.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                {% if req.status == 'pending' and current_user.is_admin %}
+                <a href="{{ url_for('patient.info_change_approve', id=req.id) }}" class="btn btn-success btn-sm">Phê duyệt</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

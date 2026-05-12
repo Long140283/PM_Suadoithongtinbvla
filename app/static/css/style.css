@@ -1,0 +1,121 @@
+/* Custom styles for the search page */
+.search-container {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-container h1 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.form-control-label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.accordion .card-header {
+    background-color: #e9ecef;
+}
+
+.accordion .btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.accordion .btn-link:hover {
+    color: #0056b3;
+}
+
+.list-group-item a {
+    color: #007bff;
+}
+
+.list-group-item a:hover {
+    color: #0056b3;
+}
+
+/* Print Styles */
+@media print {
+    /* Hide navigation, sidebar, and other UI elements */
+    nav, .navbar, .sidebar, footer, .no-print, 
+    .btn, .btn-group, .dropdown, .dropdown-menu,
+    .modal, .spinner-border, #screenshot-history,
+    .input-group-text, .breadcrumb, .alert {
+        display: none !important;
+    }
+
+    /* Reset container and body for print */
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Format form elements for print */
+    .form-control, .form-select {
+        border: none !important;
+        border-bottom: 1px dotted #ccc !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        padding: 4px 0 !important;
+        min-height: auto !important;
+    }
+
+    textarea.form-control {
+        border: 1px solid #eee !important;
+        min-height: 80px !important;
+    }
+
+    label {
+        font-weight: bold !important;
+        margin-top: 10px !important;
+        color: #333 !important;
+    }
+
+    /* Ensure row and col work correctly in print */
+    .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+    .col-md-6 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+
+    /* Specific adjustments for signatures */
+    .fw-bold {
+        font-weight: bold !important;
+    }
+
+    h2, h3, .h2, .h3 {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Hide the attachments input area but maybe keep the label? 
+       Actually user usually wants to print the data, not the file upload box. */
+    input[type="file"] {
+        display: none !important;
+    }
+}

@@ -1,0 +1,162 @@
+{% extends base_template|default("base.html") %}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<style>
+    /* HIS Classic Style overrides for Detail View */
+    .his-detail-container {
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 13px;
+        color: #000;
+        padding: 10px;
+        background: #fff;
+        height: 100%;
+    }
+    .his-detail-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #0055aa;
+        border-bottom: 2px solid #0055aa;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .his-info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+    }
+    .his-info-table td {
+        padding: 6px;
+        border: 1px dotted #ccc;
+        vertical-align: top;
+    }
+    .his-info-table td.label {
+        font-weight: bold;
+        width: 150px;
+        background-color: #f5f6f8;
+        color: #333;
+    }
+    .his-info-table td.value {
+        color: #000;
+    }
+    .his-section-title {
+        font-weight: bold;
+        background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+        border: 1px solid #a0a0a0;
+        padding: 5px 10px;
+        margin-bottom: 0;
+        margin-top: 15px;
+        color: #000;
+    }
+    .his-section-content {
+        border: 1px solid #a0a0a0;
+        border-top: none;
+        padding: 10px;
+        margin-bottom: 15px;
+        background: #fff;
+    }
+    .his-attachment-link {
+        color: #0055aa;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 8px;
+        border: 1px solid #cce8ff;
+        background: #e5f3fb;
+        border-radius: 3px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .his-attachment-link:hover {
+        background: #cce8ff;
+        border-color: #99c2ff;
+        color: #003366;
+    }
+
+    @media (max-width: 600px) {
+        .his-info-table tr {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #ccc;
+        }
+        .his-info-table td.label {
+            width: 100% !important;
+            border-bottom: none;
+            background-color: #f0f0f0;
+            padding: 8px;
+        }
+        .his-info-table td.value {
+            width: 100% !important;
+            border-top: none;
+            padding: 8px 8px 8px 15px;
+        }
+    }
+</style>
+
+<div class="his-detail-container {% if base_template == 'base_minimal.html' %}container-fluid px-0{% else %}container{% endif %}">
+    {% set request_obj = submission %}
+    {% set request_type = 'dynamic_form' %}
+    
+    {% include '_detail_actions.html' %}
+    
+    <div class="his-detail-title">PHIẾU YÊU CẦU: {{ submission.form.name }}</div>
+    
+    <div class="his-section-title"><i class="fas fa-info-circle"></i> THÔNG TIN CHUNG</div>
+    <div class="his-section-content" style="padding: 0;">
+        <table class="his-info-table" style="margin-bottom: 0; border: none;">
+            <tr>
+                <td class="label">Người tạo phiếu:</td>
+                <td class="value">{{ submission.user.full_name }}</td>
+                <td class="label">Ngày tạo:</td>
+                <td class="value">{{ submission.submitted_at.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+            </tr>
+            <tr>
+                <td class="label">Mã bệnh nhân:</td>
+                <td class="value">{{ submission.patient.patient_code if submission.patient else 'N/A' }}</td>
+                <td class="label">Trạng thái:</td>
+                <td class="value">
+                    {% if submission.status in ['pending_finance', 'pending_admin'] %}
+                        <span style="color: #d83b01; font-weight: bold;">Chờ duyệt</span>
+                    {% elif 'rejected' in submission.status %}
+                        <span style="color: #e81123; font-weight: bold;">Bị từ chối</span>
+                    {% elif submission.status == 'approved' %}
+                        <span style="color: #107c41; font-weight: bold;">Đã duyệt</span>
+                    {% else %}
+                        {{ submission.status }}
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="his-section-title"><i class="fas fa-list-alt"></i> CHI TIẾT BIỂU MẪU</div>
+    <div class="his-section-content" style="padding: 0;">
+        <table class="his-info-table" style="margin-bottom: 0; border: none;">
+            {% for value in submission.values %}
+            <tr>
+                <td class="label" style="width: 200px;">{{ value.field.label }}:</td>
+                <td class="value">{{ value.value|replace('\n', '<br>')|safe }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="his-section-title"><i class="fas fa-paperclip"></i> TỆP ĐÍNH KÈM</div>
+    <div class="his-section-content">
+        {% if attachments %}
+            <div style="display: flex; flex-wrap: wrap;">
+                {% for attachment in attachments %}
+                    <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank" class="his-attachment-link">
+                        <i class="fas fa-download"></i> {{ attachment.filename }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <span style="color: #888; font-style: italic;">Không có tệp đính kèm.</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

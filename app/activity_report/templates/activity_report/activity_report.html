@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% import "_formhelpers.html" as fields %}
+
+{% block title %}Báo cáo hoạt động{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Báo cáo hoạt động</h2>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('activity_report.activity_report') }}" class="form">
+                {{ form.hidden_tag() }}
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ fields.render_field(form.form_id) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ fields.render_field(form.department_id) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ fields.render_field(form.start_date) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ fields.render_field(form.end_date) }}
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Xem báo cáo</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if submissions %}
+    <hr>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Báo cáo cho: {{ form_name }}</h3>
+        <a href="{{ url_for('activity_report.activity_report', export='excel', form_id=form.form_id.data, department_id=form.department_id.data, start_date=form.start_date.data, end_date=form.end_date.data) }}" class="btn btn-success">
+            <i class="bi bi-file-earmark-excel"></i> Xuất Excel
+        </a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Thời gian nộp</th>
+                    <th>Người nộp</th>
+                    <th>Khoa</th>
+                    <th>Trạng thái</th>
+                    {% for field in form_fields %}
+                    <th>{{ field.label }}</th>
+                    {% endfor %}
+                    <th>Tệp đính kèm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td>{{ submission.id }}</td>
+                    <td>{{ submission.submitted_at.strftime('%d-%m-%Y %H:%M') }}</td>
+                    <td>{{ submission.user.username }}</td>
+                    <td>{{ submission.user.department.name if submission.user.department else 'N/A' }}</td>
+                    <td>
+                        <span class="badge bg-{{ 'success' if submission.status == 'approved' else 'warning' if submission.status == 'pending' else 'danger' }}">
+                            {{ submission.status }}
+                        </span>
+                    </td>
+                    {% for field in form_fields %}
+                    <td>
+                        {% set value = submission.values | selectattr('field_id', 'equalto', field.id) | map(attribute='value') | first %}
+                        {{ value | default('', true) }}
+                    </td>
+                    {% endfor %}
+                    <td>
+                        {% if submission.attachments %}
+                            {% for attachment in submission.attachments %}
+                                <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank">{{ attachment.filename }}</a><br>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% elif request.method == 'POST' %}
+    <div class="alert alert-info mt-4" role="alert">
+        Không tìm thấy kết quả nào phù hợp.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

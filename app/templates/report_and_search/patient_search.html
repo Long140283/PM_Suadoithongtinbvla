@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Tra cứu bệnh nhân{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Tra cứu bệnh nhân</h2>
+    <form method="POST" action="{{ url_for('report_and_search.patient_search') }}">
+        {{ form.hidden_tag() }}
+        <div class="row mb-3">
+            <div class="col-md-3">
+                {{ form.patient_name.label(class="form-label") }}
+                {{ form.patient_name(class="form-control") }}
+            </div>
+            <div class="col-md-3">
+                {{ form.patient_code.label(class="form-label") }}
+                {{ form.patient_code(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.start_date.label(class="form-label") }}
+                {{ form.start_date(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.end_date.label(class="form-label") }}
+                {{ form.end_date(class="form-control") }}
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+
+    <hr>
+
+    <h4>Kết quả tra cứu</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã bệnh nhân</th>
+                <th>Tên bệnh nhân</th>
+                <th>Ngày gửi</th>
+                <th>Người gửi</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in results %}
+            <tr>
+                <td>{{ patient.patient_code }}</td>
+                <td>{{ patient.full_name }}</td>
+                <td>{{ patient.timestamp.strftime('%d-%m-%Y') }}</td>
+                <td>{{ patient.user.full_name }}</td>
+                <td>{{ patient.status }}</td>
+                <td><a href="#" class="btn btn-sm btn-info">Xem</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Không tìm thấy kết quả.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

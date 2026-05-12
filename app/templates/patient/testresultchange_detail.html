@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Chi tiết yêu cầu thay đổi kết quả</h1>
+    <p><strong>Mã bệnh nhân:</strong> {{ req.patient_code }}</p>
+    <p><strong>Tên bệnh nhân:</strong> {{ req.patient_name }}</p>
+    <p><strong>Người yêu cầu:</strong> {{ req.requester_name }}</p>
+    <p><strong>Khoa:</strong> {{ req.department }}</p>
+    <p><strong>Ngày yêu cầu:</strong> {{ req.request_date.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+    <p><strong>Nội dung:</strong> {{ req.content }}</p>
+    <p><strong>Trạng thái:</strong> {{ req.status }}</p>
+
+    {% if req.attachments %}
+        <h2>Tệp đính kèm</h2>
+        <ul>
+            {% for attachment in req.attachments %}
+                <li><a href="{{ url_for('static', filename=attachment.file_path) }}" target="_blank">{{ attachment.filename }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary">Quay lại</a>
+</div>
+{% endblock %}

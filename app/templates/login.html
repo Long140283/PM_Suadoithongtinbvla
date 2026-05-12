@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block title %}BVĐK Long An - Đăng nhập hệ thống{% endblock %}
+
+{% block content %}
+<style>
+    /* VNPT HIS Style Design */
+    :root {
+        --vnpt-blue: #0055aa;
+        --vnpt-light-blue: #0072bc;
+        --vnpt-header-bg: #f8f9fa;
+        --vnpt-card-header: #0055aa;
+        --vnpt-border: #ccc;
+    }
+
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+
+    .login-page-container {
+        position: relative;
+        min-height: 100vh;
+        width: 100vw;
+        background: url("{{ url_for('static', filename='images/login_bg.png') }}") no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    /* Top Header Bar */
+    .vnpt-top-bar {
+        background-color: #0055aa;
+        color: white;
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #004488;
+        min-height: 50px;
+        z-index: 10;
+        flex-wrap: wrap;
+    }
+
+    .vnpt-logo-text {
+        font-weight: bold;
+        font-size: 16px;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .vnpt-system-name {
+        font-size: 11px;
+        text-transform: uppercase;
+        border-left: 1px solid rgba(255,255,255,0.3);
+        padding-left: 15px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    /* Main Content Area */
+    .login-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 20px;
+    }
+
+    .vnpt-login-card {
+        width: 100%;
+        max-width: 380px;
+        background: white;
+        border: 1px solid var(--vnpt-border);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border-radius: 2px;
+        overflow: hidden;
+        z-index: 5;
+    }
+
+    .vnpt-login-header {
+        background-color: var(--vnpt-card-header);
+        color: white;
+        text-align: center;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .vnpt-login-body {
+        padding: 25px 20px;
+    }
+
+    .vnpt-form-group {
+        margin-bottom: 15px;
+    }
+
+    .vnpt-label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .vnpt-input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .vnpt-input-icon {
+        position: absolute;
+        left: 10px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .vnpt-input {
+        width: 100%;
+        padding: 8px 10px 8px 35px;
+        border: 1px solid #ccc;
+        border-radius: 0;
+        font-size: 14px; /* Slightly larger for mobile tap targets */
+        background-color: #f0f7ff;
+    }
+
+    .vnpt-input:focus {
+        border-color: var(--vnpt-blue);
+        outline: none;
+        background-color: #fff;
+    }
+
+    .vnpt-checkbox-area {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 12px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .vnpt-btn-login {
+        background-color: var(--vnpt-blue);
+        color: white;
+        border: none;
+        padding: 10px 25px; /* Larger tap target */
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s;
+    }
+
+    .vnpt-btn-login:hover {
+        background-color: #004488;
+    }
+
+    /* Footer */
+    .vnpt-footer {
+        background-color: rgba(0, 85, 170, 0.9);
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 11px;
+        z-index: 10;
+    }
+
+    /* Overlay Branding */
+    .vnpt-overlay-brand {
+        position: absolute;
+        top: 80px;
+        left: 5%;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .vnpt-overlay-logo {
+        height: 50px;
+    }
+
+    .vnpt-overlay-text {
+        font-size: 30px;
+        color: var(--vnpt-blue);
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Mobile specific adjustments */
+    @media (max-width: 576px) {
+        .vnpt-system-name {
+            display: none; /* Hide long text on small screens */
+        }
+        .vnpt-overlay-brand {
+            display: none; /* Hide branding to save space on mobile */
+        }
+        .vnpt-checkbox-area {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .vnpt-checkbox-area > div {
+            justify-content: space-between;
+            width: 100%;
+        }
+        .vnpt-btn-login {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+        }
+    }
+</style>
+
+<div class="login-page-container">
+    <div class="vnpt-top-bar">
+        <div class="vnpt-logo-text">
+            <i class="fas fa-hospital"></i> BVĐK Long An
+        </div>
+        <div class="vnpt-system-name">
+            Phần mềm sửa đổi thông tin bệnh viện
+        </div>
+    </div>
+
+    <div class="vnpt-overlay-brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="vnpt-overlay-logo" alt="VNPT Logo">
+        <div class="vnpt-overlay-text">BVĐK Long An</div>
+    </div>
+
+    <div class="login-main">
+        <div class="vnpt-login-card">
+            <div class="vnpt-login-header">
+                Đăng nhập
+            </div>
+            <div class="vnpt-login-body">
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="vnpt-form-group">
+                        <label class="vnpt-label">Tên đăng nhập</label>
+                        <div class="vnpt-input-container">
+                            <i class="fas fa-user vnpt-input-icon"></i>
+                            {{ form.email(class_="vnpt-input", placeholder="Nhập tên đăng nhập hoặc email") }}
+                        </div>
+                    </div>
+
+                    <div class="vnpt-form-group">
+                        <label class="vnpt-label">Mật khẩu</label>
+                        <div class="vnpt-input-container">
+                            <i class="fas fa-lock vnpt-input-icon"></i>
+                            {{ form.password(class="vnpt-input", placeholder="Nhập mật khẩu") }}
+                        </div>
+                    </div>
+
+                    <div class="vnpt-checkbox-area">
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                            {{ form.remember_me(class="vnpt-checkbox") }} Lưu mật khẩu
+                        </label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <a href="#" style="color: #666; text-decoration: none;">Quên mật khẩu?</a>
+                            <button type="submit" class="vnpt-btn-login">
+                                <i class="fas fa-check"></i> Đăng nhập
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="vnpt-footer">
+        <div>© 2026 Bệnh viện Đa khoa Long An</div>
+    </div>
+</div>
+
+<script>
+    // Remove default bootstrap container padding if necessary
+    document.querySelector('.container.mt-4').classList.remove('container', 'mt-4');
+</script>
+{% endblock %}

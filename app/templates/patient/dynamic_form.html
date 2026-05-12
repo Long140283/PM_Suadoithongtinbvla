@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    #screenshot-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1056;
+        cursor: crosshair;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #selection-box {
+        position: absolute;
+        border: 2px solid #007bff;
+        background-color: rgba(135, 206, 250, 0.2);
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">{{ form.name }}</h2>
+    <p class="text-center">{{ form.description }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {{ patient_form.hidden_tag() }}
+        <input type="hidden" name="patient_code" value="{{ patient.patient_code if patient else '' }}" />
+        {% set fields = form.fields|sort(attribute='order') %}
+        {% set half = (fields|length / 2)|round(0, 'ceil')|int %}
+        {% set left_fields = fields[:half] %}
+        {% set right_fields = fields[half:] %}
+        <div class="row">
+            <div class="col-md-6">
+                {% for field in left_fields %}
+                <div class="mb-3">
+                    <label for="{{ field.label }}" class="form-label">{{ field.label }}</label>
+                    {% if field.field_type == 'department' %}
+                    <input type="text" class="form-control" id="{{ field.label }}" name="{{ field.label }}"
+                        value="{{ current_user.department.name if current_user.department else '' }}" readonly>
+                    {% elif field.field_type == 'text' %}
+                    <input type="text" class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if
+                        field.is_required %}required{% endif %}>
+                    {% elif field.field_type == 'textarea' %}
+                    <textarea class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if
+                        field.is_required %}required{% endif %}></textarea>
+                    {% elif field.field_type == 'date' %}
+                    <input type="date" class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if
+                        field.is_required %}required{% endif %}>
+                    {% elif field.field_type == 'datetime-local' %}
+                    <div class="input-group flatpickr" data-wrap="true">
+                        <input type="text" class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if
+                            field.is_required %}required{% endif %} data-input>
+                        <span class="input-group-text" data-toggle>
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                    </div>
+                    {% elif field.field_type == 'select' %}
+                    <select class="form-select" id="{{ field.label }}" name="{{ field.label }}" {% if field.is_required
+                        %}required{% endif %}>
+                        {% for option in field.options_list %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                {% for field in right_fields %}
+                <div class="mb-3">
+                    <label for="{{ field.label }}" class="form-label">{{ field.label }}</label>
+                    {% if form[field.label] %}
+                    {{ form[field.label](class="form-control") }}
+                    {% for error in form[field.label].errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    {% else %}
+                    {% if field.field_type == 'department' %}
+                    <input type="text" class="form-control" id="{{ field.label }}" name="{{ field.label }}"
+                        value="{{ current_user.department.name if current_user.department else '' }}" readonly>
+                    {% elif field.field_type == 'text' %}
+                    <input type="text" class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if
+                        field.required %}required{% endif %}>
+                    {% elif field.field_type == 'textarea' %}
+                    <textarea class="form-control" id="{{ field.label }}" name="{{ field.label }}" {% if field.required
+                        %}required{% endif %}></textarea>
+                    {% elif field.field_type == 'date' or field.field_type == 'datetime-local' %}
+                    <input type="{{ field.field_type }}" class="form-control" id="{{ field.label }}"
+                        name="{{ field.label }}" {% if field.required %}required{% endif %}>
+                    {% elif field.field_type == 'select' %}
+                    <select class="form-select" id="{{ field.label }}" name="{{ field.label }}" {% if field.required
+                        %}required{% endif %}>
+                        {% for option in field.options_list %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group mb-3 no-print">
+            {{ patient_form.attachments.label(class="form-control-label fw-bold") }}
+            <div class="input-group">
+                {{ patient_form.attachments(class="form-control", multiple=True) }}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-camera-retro me-1"></i> Chụp màn hình
+                    </button>
+                    <ul class="dropdown-menu shadow">
+                        {% if current_user.has_permission('use_screenshot_full') %}
+                        <li><a class="dropdown-item" href="#" id="screenshot-full-btn"><i class="fas fa-desktop me-2"></i>Chụp toàn màn hình</a></li>
+                        {% endif %}
+                        {% if current_user.has_permission('use_screenshot_region') %}
+                        <li><a class="dropdown-item" href="#" id="screenshot-region-btn"><i class="fas fa-crop-alt me-2"></i>Chụp theo vùng</a></li>
+                        {% endif %}
+                        {% if current_user.has_permission('use_screenshot_window') %}
+                        <li><a class="dropdown-item" href="#" id="screenshot-window-btn"><i class="fas fa-window-restore me-2"></i>Chụp theo tác vụ</a></li>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        {% if current_user.has_permission('use_camera') %}
+                        <li><a class="dropdown-item" href="#" id="camera-open-btn"><i
+                                    class="fas fa-camera me-2"></i>Chụp từ Camera</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div id="screenshot-history" class="mt-2"></div>
+        </div>
+
+
+        {% if can_bypass_finance %}
+        <div class="form-check no-print">
+            {{ patient_form.direct_to_admin(class="form-check-input") }}
+            {{ patient_form.direct_to_admin.label(class="form-check-label") }}
+        </div>
+        {% endif %}
+
+        <div class="row align-items-center mt-4">
+            <div class="col-md-4 text-center">
+                <p class="fw-bold">Người yêu cầu</p>
+                <p>(Ký và ghi rõ họ tên)</p>
+                <p>{{ current_user.full_name }}</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="no-print">
+                    <button type="button" class="btn btn-secondary me-2" onclick="window.print()">In</button>
+                    <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+                </div>
+            </div>
+            {% if current_user.is_admin %}
+            <div class="col-md-4 text-center">
+                <p class="fw-bold">Phòng KHTH/CNTT</p>
+                <p>(Ký và ghi rõ họ tên)</p>
+                <br><br>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loadingModalLabel">Đang xử lý...</h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Vui lòng đợi trong khi hệ thống đang đọc thông tin từ hình ảnh.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Camera Modal -->
+<div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="cameraModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cameraModalLabel">Chụp ảnh từ Camera</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="camera-close-x"></button>
+            </div>
+            <div class="modal-body text-center p-0 overflow-hidden bg-dark" style="min-height: 300px;">
+                <video id="camera-video" autoplay playsinline style="width: 100%; max-height: 70vh;"></video>
+                <img id="camera-preview-img" style="display: none; width: 100%; max-height: 70vh; object-fit: contain;">
+                <canvas id="camera-canvas" style="display: none;"></canvas>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="camera-cancel-btn">Hủy</button>
+                <button type="button" class="btn btn-primary btn-lg" id="camera-capture-btn">
+                    <i class="fas fa-camera me-2"></i>Chụp ảnh
+                </button>
+                <button type="button" class="btn btn-success btn-lg" id="camera-save-btn" style="display: none;">
+                    <i class="fas fa-check me-2"></i>Lưu ảnh
+                </button>
+                <button type="button" class="btn btn-warning btn-lg" id="camera-retake-btn" style="display: none;">
+                    <i class="fas fa-undo me-2"></i>Chụp lại
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden input for camera fallback (works on HTTP for mobile) -->
+<input type="file" id="camera-fallback-input" accept="image/*" capture="environment" style="display: none;">
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="{{ url_for('static', filename='js/screenshot.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Screenshot Module
+        ScreenshotModule.init({
+            attachmentSelector: 'input[name="attachments"]',
+            historySelector: '#screenshot-history'
+        });
+
+        const fullScreenshotBtn = document.getElementById('screenshot-full-btn');
+        const regionScreenshotBtn = document.getElementById('screenshot-region-btn');
+        const windowScreenshotBtn = document.getElementById('screenshot-window-btn');
+        const cameraOpenBtn = document.getElementById('camera-open-btn');
+        const cameraCaptureBtn = document.getElementById('camera-capture-btn');
+        const cameraSaveBtn = document.getElementById('camera-save-btn');
+        const cameraRetakeBtn = document.getElementById('camera-retake-btn');
+        const attachmentInput = document.querySelector('input[name="attachments"]');
+        const cameraVideo = document.getElementById('camera-video');
+        const cameraPreviewImg = document.getElementById('camera-preview-img');
+        const cameraCanvas = document.getElementById('camera-canvas');
+        const cameraModalEl = document.getElementById('cameraModal');
+        const cameraFallbackInput = document.getElementById('camera-fallback-input');
+        
+        let cameraModal = null;
+        if (cameraModalEl && typeof bootstrap !== 'undefined') {
+            cameraModal = new bootstrap.Modal(cameraModalEl);
+        }
+        let cameraStream = null;
+        let currentPhotoBlob = null;
+
+        // Full Screen Screenshot (Local page)
+        async function takeFullScreenScreenshot() {
+            const loadingModalEl = document.getElementById('loadingModal');
+            const loadingModal = loadingModalEl ? new bootstrap.Modal(loadingModalEl) : null;
+            if (loadingModal) loadingModal.show();
+
+            try {
+                const canvas = await html2canvas(document.body, { useCORS: true, logging: false, scale: 1 });
+                canvas.toBlob(blob => {
+                    ScreenshotModule.attachFileToInput(blob, 'screenshot-page.png');
+                    if (loadingModal) loadingModal.hide();
+                }, 'image/png');
+            } catch (err) {
+                alert('Lỗi chụp màn hình: ' + err.message);
+                if (loadingModal) loadingModal.hide();
+            }
+        }
+
+        if (fullScreenshotBtn) fullScreenshotBtn.onclick = (e) => { e.preventDefault(); takeFullScreenScreenshot(); };
+        if (regionScreenshotBtn) regionScreenshotBtn.onclick = (e) => { e.preventDefault(); ScreenshotModule.takeUniversalRegionScreenshot(); };
+        if (windowScreenshotBtn) windowScreenshotBtn.onclick = (e) => { e.preventDefault(); ScreenshotModule.listWindows(); };
+
+
+        // Camera Logic
+        async function openCamera() {
+            resetCameraUI();
+            const isSecure = window.isSecureContext || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !isSecure) {
+                if (cameraFallbackInput) cameraFallbackInput.click();
+                else alert("Trình duyệt không hỗ trợ camera.");
+                return;
+            }
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+            } catch (err) {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            }
+            if (cameraStream) {
+                cameraVideo.srcObject = cameraStream;
+                cameraModal.show();
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+            cameraVideo.srcObject = null;
+        }
+
+        function resetCameraUI() {
+            cameraVideo.style.display = 'block';
+            cameraPreviewImg.style.display = 'none';
+            cameraCaptureBtn.style.display = 'inline-block';
+            cameraSaveBtn.style.display = 'none';
+            cameraRetakeBtn.style.display = 'none';
+            currentPhotoBlob = null;
+        }
+
+        function capturePhoto() {
+            const context = cameraCanvas.getContext('2d');
+            cameraCanvas.width = cameraVideo.videoWidth;
+            cameraCanvas.height = cameraVideo.videoHeight;
+            context.drawImage(cameraVideo, 0, 0, cameraCanvas.width, cameraCanvas.height);
+            
+            cameraCanvas.toBlob(blob => {
+                currentPhotoBlob = blob;
+                const url = URL.createObjectURL(blob);
+                cameraPreviewImg.src = url;
+                
+                // Switch to preview mode
+                cameraVideo.style.display = 'none';
+                cameraPreviewImg.style.display = 'block';
+                cameraCaptureBtn.style.display = 'none';
+                cameraSaveBtn.style.display = 'inline-block';
+                cameraRetakeBtn.style.display = 'inline-block';
+            }, 'image/png');
+        }
+
+        function savePhoto() {
+            if (currentPhotoBlob) {
+                ScreenshotModule.attachFileToInput(currentPhotoBlob, `camera-${Date.now()}.png`);
+                cameraModal.hide();
+                stopCamera();
+            }
+        }
+
+        if (cameraOpenBtn) cameraOpenBtn.onclick = (e) => { e.preventDefault(); openCamera(); };
+        if (cameraCaptureBtn) cameraCaptureBtn.onclick = capturePhoto;
+        if (cameraRetakeBtn) cameraRetakeBtn.onclick = resetCameraUI;
+        if (cameraSaveBtn) cameraSaveBtn.onclick = savePhoto;
+        
+        if (cameraModalEl) cameraModalEl.addEventListener('hidden.bs.modal', stopCamera);
+        if (cameraFallbackInput) {
+            cameraFallbackInput.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    ScreenshotModule.attachFileToInput(file, `camera-${Date.now()}.png`);
+                }
+            };
+        }
+
+        // Flatpickr initialization
+        flatpickr(".flatpickr", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i:S",
+            defaultDate: new Date(),
+            time_24hr: true,
+            wrap: true
+        });
+
+        // Auto-scan uploaded files
+        attachmentInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                const lastFile = files[files.length - 1];
+                if (lastFile.type.startsWith('image/') && !lastFile.name.includes('screenshot') && !lastFile.name.includes('camera')) {
+                    // Only scan if manually uploaded (not from our tool which already scans)
+                    // Or we can just scan everything, but let's avoid redundant scans.
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

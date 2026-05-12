@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Chỉnh sửa Biểu mẫu: {{ d_form.name }}</h1>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin Biểu mẫu</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin.edit_form', form_id=d_form.id) }}">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.name.label(class="form-control-label") }}
+                            {{ form.name(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.description.label(class="form-control-label") }}
+                            {{ form.description(class="form-control", rows=3) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.copy_from.label(class="form-control-label") }}
+                            {{ form.copy_from(class="form-control") }}
+                        </div>
+
+
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thêm Trường mới</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('patient.add_field', form_id=d_form.id) }}">
+                        {{ field_form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ field_form.label.label(class="form-control-label") }}
+                            {{ field_form.label(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.field_type.label(class="form-control-label") }}
+                            {{ field_form.field_type(class="form-control", id="field_type") }}
+                        </div>
+                        <div class="form-group" id="options_div">
+                            {{ field_form.options.label(class="form-control-label") }}
+                            {{ field_form.options(class="form-control", rows=3) }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.requester_signature.label(class="form-control-label") }}
+                            {{ field_form.requester_signature(class="form-control", rows=3) }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.it_signature.label(class="form-control-label") }}
+                            {{ field_form.it_signature(class="form-control", rows=3) }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.required() }} {{ field_form.required.label }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.order.label(class="form-control-label") }}
+                            {{ field_form.order(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ field_form.submit(class="btn btn-success") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Các trường của Biểu mẫu</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nhãn</th>
+                            <th>Loại</th>
+                            <th>Bắt buộc</th>
+                            <th>Thứ tự</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in d_form.fields|sort(attribute='order') %}
+                        <tr>
+                            <td>{{ field.label }}</td>
+                            <td>{{ field.field_type }}</td>
+                            <td>{{ 'Có' if field.required else 'Không' }}</td>
+                            <td>{{ field.order }}</td>
+                            <td>
+                                <a href="{{ url_for('patient.edit_field', form_id=d_form.id, field_id=field.id) }}" class="btn btn-primary btn-sm">Sửa</a>
+                                <form action="{{ url_for('patient.move_field_up', field_id=field.id) }}" method="POST" style="display:inline;">
+                                    {{ delete_form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-arrow-up"></i></button>
+                                </form>
+                                <form action="{{ url_for('patient.move_field_down', field_id=field.id) }}" method="POST" style="display:inline;">
+                                    {{ delete_form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-arrow-down"></i></button>
+                                </form>
+                                <form action="{{ url_for('patient.delete_field', form_id=d_form.id, field_id=field.id) }}" method="POST" style="display:inline;">
+                                    {{ delete_form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa trường này không?');">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fieldType = document.getElementById('field_type');
+        var optionsDiv = document.getElementById('options_div');
+
+        function toggleOptions() {
+            if (fieldType.value === 'select') {
+                optionsDiv.style.display = 'block';
+            } else {
+                optionsDiv.style.display = 'none';
+            }
+        }
+
+        toggleOptions(); 
+        fieldType.addEventListener('change', toggleOptions);
+    });
+</script>
+{% endblock %}

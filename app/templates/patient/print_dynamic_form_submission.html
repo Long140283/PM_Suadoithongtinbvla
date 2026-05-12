@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .container {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        body {
+            padding-top: 0 !important;
+        }
+    }
+    .print-only {
+        display: none;
+    }
+    @media print {
+        .print-only {
+            display: block;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="no-print mb-3">
+        <button onclick="window.print()" class="btn btn-primary">In phiếu</button>
+        <button onclick="window.close()" class="btn btn-secondary">Đóng</button>
+    </div>
+
+    <h2 class="text-center">{{ submission.form.name }}</h2>
+    <p class="text-center">{{ submission.form.description }}</p>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <p><strong>Ngày gửi:</strong> {{ submission.submitted_at.strftime('%d/%m/%Y %H:%M:%S') }}</p>
+        </div>
+        <div class="col-md-6 text-end">
+             <p><strong>Mã phiếu:</strong> #{{ submission.id }}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        {% set values = submission.data %}
+        {% for field in submission.form.fields|sort(attribute='order') %}
+            <div class="col-md-6 mb-3">
+                <p><strong>{{ field.label }}:</strong> {{ values.get(field.id, '') }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-6 text-center">
+            <p class="fw-bold">Người yêu cầu</p>
+            <p>(Ký và ghi rõ họ tên)</p>
+            <div style="height: 80px;"></div>
+            <p class="fw-bold">{{ submission.user.full_name }}</p>
+        </div>
+        <div class="col-6 text-center">
+            <p class="fw-bold">Phòng KHTH/CNTT</p>
+            <p>(Ký và ghi rõ họ tên)</p>
+            <div style="height: 80px;"></div>
+            <p class="fw-bold">{{ submission.approved_by.full_name if submission.approved_by else '............................' }}</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        // Optional: auto print
+        // window.print();
+    }
+</script>
+{% endblock %}

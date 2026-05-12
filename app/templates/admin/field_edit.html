@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Chỉnh sửa Trường: {{ field.label }}</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Chi tiết Trường</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('patient.edit_field', form_id=field.form_id, field_id=field.id) }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.label.label(class="form-control-label") }}
+                    {{ form.label(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.field_type.label(class="form-control-label") }}
+                    {{ form.field_type(class="form-control", id="field_type") }}
+                </div>
+                <div class="form-group" id="options_div">
+                    {{ form.options.label(class="form-control-label") }}
+                    {{ form.options(class="form-control", rows=3, value='\n'.join(field.get_options())) }}
+                </div>
+                <div class="form-group">
+                    {{ form.required() }} {{ form.required.label }}
+                </div>
+                <div class="form-group">
+                    {{ form.order.label(class="form-control-label") }}
+                    {{ form.order(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <a href="{{ url_for('admin.edit_form', form_id=field.form_id) }}" class="btn btn-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fieldType = document.getElementById('field_type');
+        var optionsDiv = document.getElementById('options_div');
+
+        function toggleOptions() {
+            if (fieldType.value === 'select') {
+                optionsDiv.style.display = 'block';
+            } else {
+                optionsDiv.style.display = 'none';
+            }
+        }
+
+        toggleOptions();
+        fieldType.addEventListener('change', toggleOptions);
+    });
+</script>
+{% endblock %}

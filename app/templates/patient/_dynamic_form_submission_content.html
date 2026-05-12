@@ -1,0 +1,90 @@
+<div class="container">
+    <h4>Chi tiết Biểu mẫu: {{ submission.form.name }}</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <p><strong>Người gửi:</strong> {{ submission.user.full_name }}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Ngày gửi:</strong> {{ submission.submitted_at.strftime('%d/%m/%Y %H:%M:%S') }}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Trạng thái:</strong> 
+                {% if submission.status == 'pending_admin' %}
+                    Chờ admin duyệt
+                {% elif submission.status == 'pending_finance' %}
+                    Chờ kế toán duyệt
+                {% elif submission.status == 'approved' %}
+                    Đã duyệt
+                {% elif submission.status == 'rejected_by_admin' %}
+                    Bị admin từ chối
+                {% elif submission.status == 'rejected_by_finance' %}
+                    Bị kế toán từ chối
+                {% elif submission.status == 'rejected' %}
+                    Bị từ chối
+                {% else %}
+                    {{ submission.status }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Thông tin đã điền:</h4>
+            <ul>
+                {% for value in submission.values %}
+                    <li><strong>{{ value.field.label }}:</strong> {{ value.value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h5>Tệp đính kèm</h5>
+            {% if attachments %}
+                <ul>
+                    {% for attachment in attachments %}
+                        <li><a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank">{{ attachment.filename }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Không có tệp đính kèm.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% if submission.status == 'pending_admin' and current_user.is_admin %}
+    <div class="mt-3">
+        <form action="{{ url_for('admin.approve_request', id=submission.id, request_type='dynamic_form') }}" method="POST" style="display: inline;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-success">Duyệt</button>
+        </form>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal-dynamic_form-{{ submission.id }}">
+            Từ chối
+        </button>
+    </div>
+
+    <!-- Rejection Modal -->
+    <div class="modal fade" id="rejectModal-dynamic_form-{{ submission.id }}" tabindex="-1" aria-labelledby="rejectModalLabel-dynamic_form-{{ submission.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ url_for('admin.reject_request', request_type='dynamic_form', id=submission.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rejectModalLabel-dynamic_form-{{ submission.id }}">Lý do từ chối</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ rejection_form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ rejection_form.reason.label(class="form-label") }}
+                            {{ rejection_form.reason(class="form-control") }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-danger">Từ chối</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

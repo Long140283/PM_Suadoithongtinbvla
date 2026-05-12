@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .dashboard-container {
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .requests-list {
+        height: 100%;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .request-detail-view {
+        height: 100%;
+        overflow-y: auto;
+        background-color: #f8f9fc;
+        border-radius: 0.5rem;
+        border: 1px solid #e3e6f0;
+    }
+
+    .request-card {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        border-left: 4px solid #4e73df;
+    }
+
+    .request-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+    }
+
+    .request-card.active {
+        background-color: #f8f9fc;
+        border-color: #4e73df;
+    }
+
+    .request-card.status-pending {
+        border-left-color: #f6c23e;
+    }
+
+    .request-card.status-approved {
+        border-left-color: #1cc88a;
+    }
+
+    .request-card.status-rejected {
+        border-left-color: #e74a3b;
+    }
+
+    #detail-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        min-height: 600px;
+    }
+
+    .filter-btn.active {
+        font-weight: bold;
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    }
+</style>
+
+<div class="container-fluid dashboard-container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Trang quản trị</h1>
+        <span>Chào mừng, <strong>{{ current_user.username }}</strong>!</span>
+    </div>
+
+    <div class="row flex-grow-1 h-100">
+        <!-- Left Column: Request List -->
+        <div class="col-lg-4 col-md-5 h-100 d-flex flex-column">
+            <!-- Filter Nav -->
+            <div class="mb-3">
+                <div class="btn-group w-100" role="group" aria-label="Lọc trạng thái">
+                    <button type="button" class="btn btn-outline-primary filter-btn active" data-filter="all">Tất
+                        cả</button>
+                    <button type="button" class="btn btn-outline-warning filter-btn" data-filter="pending">Chưa
+                        duyệt</button>
+                    <button type="button" class="btn btn-outline-success filter-btn" data-filter="approved">Đã
+                        duyệt</button>
+                    <button type="button" class="btn btn-outline-danger filter-btn" data-filter="rejected">Từ
+                        chối</button>
+                </div>
+            </div>
+
+            <!-- Scrollable List -->
+            <div class="requests-list">
+                {% if all_requests %}
+                {% for request in all_requests %}
+                {% set status_class = 'status-pending' if 'pending' in request.status else ('status-rejected' if
+                'rejected' in request.status else 'status-approved') %}
+                {% set display_status = 'Chưa duyệt' if 'pending' in request.status else ('Bị từ chối' if 'rejected' in
+                request.status else request.status) %}
+                {% set badge_class = 'bg-warning text-dark' if 'pending' in request.status else ('bg-danger' if
+                'rejected' in request.status else 'bg-success') %}
+
+                {% set view_url = '' %}
+                {% if request.type == 'info_change' %}
+                {% set view_url = url_for('patient.info_change_detail', id=request.id) %}
+                {% elif request.type == 'treatment' %}
+                {% set view_url = url_for('patient.treatment_detail', id=request.id) %}
+                {% elif request.type == 'test_result_change' %}
+                {% set view_url = url_for('patient.testresultchange_detail', id=request.id) %}
+                {% elif request.type == 'dynamic_form' %}
+                {% set view_url = url_for('patient.dynamic_form_submission_detail', id=request.id) %}
+                {% endif %}
+
+                <div class="card shadow-sm mb-3 request-card {{ status_class }}"
+                    data-status="{{ 'pending' if 'pending' in request.status else ('rejected' if 'rejected' in request.status else 'approved') }}"
+                    onclick="loadDetail('{{ view_url }}', this)">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="card-title fw-bold mb-0 text-primary">
+                                {{ request.patient_name or 'Bệnh nhân' }}
+                            </h6>
+                            <span class="badge {{ badge_class }}">{{ display_status }}</span>
+                        </div>
+                        <p class="card-text small text-muted mb-1">
+                            <i class="fas fa-id-card me-1"></i> {{ request.patient_code or 'N/A' }} |
+                            <i class="fas fa-hospital me-1"></i> {{ request.department or 'N/A' }}
+                        </p>
+                        <p class="card-text small mb-2">
+                            <strong>Loại:</strong>
+                            {% if request.type == 'info_change' %} Thay đổi TT
+                            {% elif request.type == 'treatment' %} Điều trị
+                            {% elif request.type == 'test_result_change' %} Th.đổi KQ
+                            {% elif request.type == 'dynamic_form' %} Tiêu biểu động
+                            {% endif %}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center small text-muted">
+                            <span><i class="fas fa-user-edit me-1"></i> {{ request.requester_name if request.type !=
+                                'dynamic_form' else request.submitted_by }}</span>
+                            <span><i class="fas fa-clock me-1"></i> {{ request.request_date.strftime('%d/%m %H:%M') if
+                                getattr(request, 'request_date', None) else '' }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-info text-center">Không có yêu cầu nào.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column: Detail View -->
+        <div class="col-lg-8 col-md-7 h-100 d-none d-md-block">
+            <div class="request-detail-view shadow-sm d-flex align-items-center justify-content-center"
+                id="detail-container">
+                <div class="text-center text-muted" id="detail-placeholder">
+                    <i class="fas fa-file-alt fa-4x mb-3 text-gray-300"></i>
+                    <h5>Chọn một yêu cầu để xem chi tiết</h5>
+                    <p>Các hành động duyệt/từ chối có thể thực hiện bên trong trang chi tiết.</p>
+                </div>
+                <iframe id="detail-iframe" class="d-none" title="Chi tiết yêu cầu"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Filtering logic
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            // Update active state of buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            // Filter cards
+            document.querySelectorAll('.request-card').forEach(card => {
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.getAttribute('data-status') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+
+    // Load detail into iframe
+    function loadDetail(url, cardElement) {
+        if (!url) return;
+
+        // Update active card styling
+        document.querySelectorAll('.request-card').forEach(c => c.classList.remove('active'));
+        cardElement.classList.add('active');
+
+        // Show iframe, hide placeholder
+        document.getElementById('detail-placeholder').classList.add('d-none');
+        const iframe = document.getElementById('detail-iframe');
+        iframe.classList.remove('d-none');
+
+        // Load the URL
+        // We append a query parameter to let the detail view know it's rendered inside a frame 
+        // if needed to hide its own navbar, but existing routes inside app should already inherit base.html.
+        // For a seamless experience, we just load it directly. 
+        iframe.src = url;
+    }
+
+    // Optionally refresh lists periodically if desired (keeping the logic from original template)
+    // Removed 30s auto reload to prevent interrupting user while reading details
+</script>
+{% endblock %}

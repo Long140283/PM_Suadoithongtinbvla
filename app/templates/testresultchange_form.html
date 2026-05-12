@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('patient_code').addEventListener('change', function() {
+        var patientCode = this.value;
+        fetch('/patient/get_patient_name/' + patientCode)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('patient_name').value = data.full_name;
+            });
+    });
+</script>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">PHIẾU THAY ĐỔI THÔNG TIN BỆNH NHÂN ĐÃ CÓ KẾT QUẢ XÉT NGHIỆM</h2>
+                    <p class="text-center">Mã: Mẫu 04-CNTT</p>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-info">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">1. THÔNG TIN BỆNH NHÂN VÀ LÝ DO THAY ĐỔI</label>
+                                <div class="mb-3">
+                                    {{ form.patient_code.label(class="form-label") }}
+                                    {{ form.patient_code(class="form-control") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.patient_name.label(class="form-label") }}
+                                    {{ form.patient_name(class="form-control") }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {{ form.dob.label(class="form-label") }}
+                                        {{ form.dob(class="form-control") }}
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        {{ form.address.label(class="form-label") }}
+                                        {{ form.address(class="form-control") }}
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        {{ form.department.label(class="form-label") }}
+                                        {{ form.department(class="form-control") }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.bhyt.label(class="form-label") }}
+                                        {{ form.bhyt(class="form-control") }}
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <label class="form-label">Lý do thay đổi dựa trên kết quả xét nghiệm:</label>
+                                        <textarea class="form-control" rows="3" placeholder="Mô tả lý do thay đổi thông tin bệnh nhân dựa trên kết quả xét nghiệm..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Placeholder for image or additional info if needed -->
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">2. KẾT QUẢ XÉT NGHIỆM</label>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Loại xét nghiệm</th>
+                                            <th>Kết quả</th>
+                                            <th>Ghi chú</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Máu</td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Kết quả xét nghiệm máu..."></textarea></td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Ghi chú..."></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nước tiểu</td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Kết quả xét nghiệm nước tiểu..."></textarea></td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Ghi chú..."></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hình ảnh (X-quang, CT, v.v.)</td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Kết quả hình ảnh..."></textarea></td>
+                                            <td><textarea class="form-control" rows="2" placeholder="Ghi chú..."></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khác</td>
+                                            <td>{{ form.lab_results(class="form-control", rows=3) }}</td>
+                                            <td><textarea class="form-control" rows="3" placeholder="Ghi chú khác..."></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">3. Ý KIẾN BÁC SĨ VÀ KẾ HOẠCH ĐIỀU TRỊ</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form.diagnosis.label(class="form-label") }}
+                                        {{ form.diagnosis(class="form-control", rows=4) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.treatment_plan.label(class="form-label") }}
+                                        {{ form.treatment_plan(class="form-control", rows=4) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Ngày:</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tài liệu đính kèm (nếu có):</label>
+                                {{ form.attachment(class="form-control") }}
+                            </div>
+                        </div>
+                        {% if can_bypass_finance %}
+                        <div class="mb-3">
+                            {{ form.direct_to_admin(class="form-check-input") }}
+                            <label class="form-check-label" for="direct_to_admin">Gửi duyệt (trực tiếp cho admin, không qua kế toán)</label>
+                        </div>
+                        {% endif %}
+                        <div class="text-center">
+                            {{ form.submit(class="btn btn-primary me-2") }}
+                            <button type="button" onclick="window.print()" class="btn btn-secondary">In</button>
+                        </div>
+                    </form>
+
+                    <div class="signature-section" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                        <div class="signature-block" style="text-align: center;">
+                            <strong>Người yêu cầu</strong><br>
+                            <em>(Ký và ghi rõ họ tên)</em>
+                            <div class="signature-line" style="border-bottom: 1px solid #000; height: 50px; margin-top: 40px;"></div>
+                            {{ current_user.username + ' - ' + current_user.full_name }}
+                        </div>
+                        <div class="signature-block" style="text-align: center;">
+                            <strong>Phòng KHTH/CNTT</strong><br>
+                            <em>(Ký và ghi rõ họ tên)</em>
+                            <div class="signature-line" style="border-bottom: 1px solid #000; height: 50px; margin-top: 40px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

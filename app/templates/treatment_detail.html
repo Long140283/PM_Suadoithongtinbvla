@@ -1,0 +1,35 @@
+{% extends base_template|default("base.html") %}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="{% if base_template == 'base_minimal.html' %}container-fluid{% else %}container mt-5{% endif %}">
+    <div class="card">
+        <div class="card-header">
+            <h3>Chi tiết Yêu cầu Sửa đổi Thông tin</h3>
+        </div>
+        <div class="card-body">
+            {% set request_obj = request %}
+            {% set request_type = 'treatment' %}
+            {% include '_detail_actions.html' %}
+            <p><strong>Mã bệnh nhân:</strong> {{ request.patient_code }}</p>
+            <p><strong>Tên bệnh nhân:</strong> {{ request.patient_name }}</p>
+            <p><strong>Ngày sinh:</strong> {{ request.dob.strftime('%d-%m-%Y') }}</p>
+            <p><strong>Địa chỉ:</strong> {{ request.address }}</p>
+            <p><strong>Khoa:</strong> {{ request.department }}</p>
+            <p><strong>Số BHYT:</strong> {{ request.bhyt }}</p>
+            <p><strong>Nội dung thay đổi:</strong> {{ request.change_content }}</p>
+            <p><strong>Lý do:</strong> {{ request.reason }}</p>
+            <p><strong>Người yêu cầu:</strong> {{ request.requester }}</p>
+            <p><strong>Trạng thái:</strong> {{ request.status }}</p>
+            {% if attachments %}
+            <p><strong>Tệp đính kèm:</strong></p>
+            <ul>
+                {% for attachment in attachments %}
+                <li><a href="{{ url_for('static', filename=attachment.url_path) }}" target="_blank">{{ attachment.filename }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

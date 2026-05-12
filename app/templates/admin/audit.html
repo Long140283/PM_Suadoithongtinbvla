@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Nhật ký kiểm tra</h1>
+
+    <form method="get" action="{{ url_for('admin.audit') }}" class="mb-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" name="user_name" class="form-control" placeholder="Tên người dùng" value="{{ request.args.get('user_name', '') }}">
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="action_type" class="form-control" placeholder="Hành động (vd: created_patient)" value="{{ request.args.get('action_type', '') }}">
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="search_details" class="form-control" placeholder="Tên bệnh nhân hoặc chi tiết" value="{{ request.args.get('search_details', '') }}">
+            </div>
+             <div class="col-md-3">
+                <input type="date" name="start_date" class="form-control" value="{{ request.args.get('start_date', '') }}">
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="end_date" class="form-control" value="{{ request.args.get('end_date', '') }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Thời gian</th>
+                <th>Người dùng</th>
+                <th>Hành động</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ log.user.username if log.user else 'Hệ thống' }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.details }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        {% set args = request.args.to_dict() %}
+        {% do args.pop('page', None) %}
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('admin.audit', page=pagination.prev_num, **args) }}">Trước</a></li>
+            {% endif %}
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    <li class="page-item {% if page == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('admin.audit', page=page, **args) }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('admin.audit', page=pagination.next_num, **args) }}">Sau</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

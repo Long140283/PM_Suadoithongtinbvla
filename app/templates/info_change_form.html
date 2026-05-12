@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+    .signature-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+    .signature-block {
+        text-align: center;
+    }
+    .signature-line {
+        border-bottom: 1px solid #000;
+        height: 50px;
+        margin-top: 40px;
+    }
+    .form-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+</style>
+<div class="container">
+    <div style="text-align: center;">
+        <h2 class="form-title" style="font-weight: bold; font-size: 24px; margin-bottom: 0;">PHIẾU THAY ĐỔI THÔNG TIN</h2>
+        <p style="font-weight: bold; margin-top: 0; margin-bottom: 0;">Mẫu 02-CNTT</p>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Ngày và giờ yêu cầu</label>
+                    {{ form.request_date(class="form-control", type="datetime-local") }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mã bệnh nhân</label>
+                    {{ form.patient_code(class="form-control", required=True) }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tên bệnh nhân</label>
+                    {{ form.patient_name(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Họ và tên người yêu cầu</label>
+                    {{ form.requester_name(class="form-control", required=True, value=current_user.username + ' - ' + current_user.full_name) }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mối quan hệ với bệnh nhân</label>
+                    {{ form.relationship_to_patient(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Khoa/Phòng</label>
+                    {{ form.department(class="form-control") }}
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Loại thông tin thay đổi</label>
+                    {{ form.info_type(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Loại thông tin khác (nếu có)</label>
+                    {{ form.other_info_type(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nội dung thay đổi</label>
+                    {{ form.content(class="form-control", rows=4) }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Lý do thay đổi</label>
+                    {{ form.reason(class="form-control", rows=3) }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tài liệu đính kèm (nếu có)</label>
+                    {{ form.attachment(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        {% if can_bypass_finance %}
+        <div class="mb-3">
+            {{ form.direct_to_admin(class="form-check-input") }}
+            <label class="form-check-label" for="direct_to_admin">Gửi duyệt (trực tiếp cho admin, không qua kế toán)</label>
+        </div>
+        {% endif %}
+        <div class="text-center">
+            {{ form.submit(class="btn btn-primary me-2") }}
+            <button type="button" onclick="window.print()" class="btn btn-secondary">In</button>
+        </div>
+    </form>
+
+
+
+    <div class="signature-section">
+        <div class="signature-block">
+            <strong>Người yêu cầu</strong><br>
+            <em>(Ký và ghi rõ họ tên)</em>
+            <div class="signature-line"></div>
+            {{ current_user.full_name }}
+        </div>
+        <div class="signature-block">
+            <strong>Phòng KHTH/CNTT</strong><br>
+            <em>(Ký và ghi rõ họ tên)</em>
+            <div class="signature-line"></div>
+            {% if current_user.is_admin %}
+                {{ current_user.full_name }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

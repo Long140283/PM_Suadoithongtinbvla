@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Báo cáo và tra cứu</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.form_id.label(class="form-label") }}
+                {{ form.form_id(class="form-select") }}
+            </div>
+            <div class="col-md-3">
+                {{ form.department.label(class="form-label") }}
+                {{ form.department(class="form-select") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.start_date.label(class="form-label") }}
+                {{ form.start_date(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.end_date.label(class="form-label") }}
+                {{ form.end_date(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                <br>
+                {{ form.submit(class="btn btn-primary") }}
+                <button type="submit" name="export" value="excel" class="btn btn-success">Xuất Excel</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã BA</th>
+              <th>Họ và tên Bệnh nhân</th>
+              <th>Khoa/Phòng</th>
+              <th>Người gửi</th>
+                <th>Ngày gửi</th>
+                <th>Trạng thái</th>
+                <th>Nội dung</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+            <tr>
+                 <td>
+                    {% set field = submission.form.fields.filter_by(label='Mã BA').first() %}
+                    {% if field %}
+                        {% set submission_value = submission.values.filter_by(field_id=field.id).first() %}
+                        {{ submission_value.value if submission_value else '' }}
+                    {% endif %}
+                 </td>
+                 <td>
+                    {% set field = submission.form.fields.filter_by(label='Họ và tên').first() %}
+                    {% if field %}
+                        {% set submission_value = submission.values.filter_by(field_id=field.id).first() %}
+                        {{ submission_value.value if submission_value else '' }}
+                    {% endif %}
+                 </td>
+                 <td>
+                    {% set field = submission.form.fields.filter_by(label='Khoa/Phòng').first() %}
+                    {% if field %}
+                        {% set submission_value = submission.values.filter_by(field_id=field.id).first() %}
+                        {{ submission_value.value if submission_value else '' }}
+                    {% endif %}
+                 </td>
+                 <td>{{ submission.user.full_name }}</td>
+                 <td>{{ submission.submitted_at.strftime('%d-%m-%Y') }}</td>
+                 <td>
+                     {% set patient_code_field = submission.form.fields.filter_by(label='Mã BA').first() %}
+                     {% if patient_code_field %}
+                         {% set patient_code_value = submission.values.filter_by(field_id=patient_code_field.id).first() %}
+                         {{ patient_code_value.value if patient_code_value else '' }}
+                     {% endif %}
+                 </td>
+                 <td>
+                     {% set ho_va_ten_field = submission.form.fields.filter_by(label='Họ và tên').first() %}
+                     {% if ho_va_ten_field %}
+                         {% set ho_va_ten_value = submission.values.filter_by(field_id=ho_va_ten_field.id).first() %}
+                         {{ ho_va_ten_value.value if ho_va_ten_value else '' }}
+                     {% endif %}
+                 </td>
+                 <td>
+                     {% set khoa_phong_field = submission.form.fields.filter_by(label='Khoa/Phòng').first() %}
+                     {% if khoa_phong_field %}
+                         {% set khoa_phong_value = submission.values.filter_by(field_id=khoa_phong_field.id).first() %}
+                         {{ khoa_phong_value.value if khoa_phong_value else '' }}
+                     {% endif %}
+                 </td>
+                 <td>
+                     {% if submission.status == 'pending' %}
+                         Chờ duyệt
+                     {% elif submission.status == 'approved' %}
+                         Đã duyệt
+                     {% elif submission.status == 'rejected' %}
+                         Đã từ chối
+                     {% else %}
+                         {{ submission.status }}
+                     {% endif %}
+                 </td>
+                 <td>{{ submission.form.name }}</td>
+                 <td>
+                     <a href="{{ url_for('patient.dynamic_form_submission_detail', id=submission.id) }}">Xem chi tiết</a>
+                 </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends base_template|default("base.html") %}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="{% if base_template == 'base_minimal.html' %}container-fluid{% else %}container mt-5{% endif %}">
+    <div class="card">
+        <div class="card-header">
+            <h3>Chi tiết Yêu cầu Thay đổi Thông tin</h3>
+        </div>
+        <div class="card-body">
+            {% set request_obj = request %}
+            {% set request_type = 'info_change' %}
+            {% include '_detail_actions.html' %}
+            <p><strong>Mã bệnh nhân:</strong> {{ request.patient_code }}</p>
+            <p><strong>Người yêu cầu:</strong> {{ request.requester_name }}</p>
+            <p><strong>Quan hệ với bệnh nhân:</strong> {{ request.relationship_to_patient }}</p>
+            <p><strong>Khoa:</strong> {{ request.department }}</p>
+            <p><strong>Loại thông tin:</strong> {{ request.info_type }}</p>
+            {% if request.info_type == 'other' %}
+            <p><strong>Loại thông tin khác:</strong> {{ request.other_info_type }}</p>
+            {% endif %}
+            <p><strong>Nội dung thay đổi:</strong> {{ request.content }}</p>
+            <p><strong>Lý do:</strong> {{ request.reason }}</p>
+            <p><strong>Trạng thái:</strong> {{ request.status }}</p>
+            {% if request.status == 'rejected' and request.rejection_reason %}
+            <p><strong>Lý do từ chối:</strong> {{ request.rejection_reason }}</p>
+            {% endif %}
+            {% if attachments %}
+            <p><strong>Tệp đính kèm:</strong></p>
+            <ul>
+                {% for attachment in attachments %}
+                <li><a href="{{ url_for('static', filename=attachment.url_path) }}" target="_blank">{{ attachment.filename }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            {% if request.status == 'rejected' %}
+            <a href="{{ url_for('patient.info_change_edit', id=request.id) }}" class="btn btn-warning">Sửa</a>
+            <form action="{{ url_for('patient.info_change_delete', id=request.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa yêu cầu này không?');">Xóa</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

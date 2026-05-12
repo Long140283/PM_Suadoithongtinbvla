@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Quản lý quyền</h1>
+    <a href="{{ url_for('admin.create_permission') }}" class="btn btn-primary mb-3">Tạo quyền mới</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên quyền</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for permission in permissions %}
+            <tr>
+                <td>{{ permission.id }}</td>
+                <td>{{ permission.display_name or permission.name }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_permission', id=permission.id) }}" class="btn btn-sm btn-warning">Chỉnh sửa</a>
+                    <form action="{{ url_for('admin.delete_permission', id=permission.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa quyền này không?');">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

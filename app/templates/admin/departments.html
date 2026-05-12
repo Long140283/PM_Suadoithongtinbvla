@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Quản lý khoa</h2>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    <hr>
+    <h3>Cập nhật hàng loạt</h3>
+    <form method="POST" action="{{ url_for('admin.bulk_update_departments') }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            <label for="file" class="form-label">Chọn file Excel</label>
+            <input type="file" name="file" class="form-control" accept=".xlsx, .xls">
+        </div>
+        <button type="submit" class="btn btn-success">Cập nhật hàng loạt</button>
+        <a href="{{ url_for('admin.download_department_template') }}" class="btn btn-info">Tải file mẫu</a>
+        <div class="form-text mt-2">
+            <i class="fas fa-info-circle"></i> Mẹo: Khi cập nhật nhân viên hàng loạt, nếu tên khoa chưa tồn tại, hệ thống sẽ tự động tạo mới khoa đó.
+        </div>
+    </form>
+    <hr>
+    <h3>Danh sách khoa</h3>
+    <form id="bulk-delete-form" method="POST" action="{{ url_for('admin.bulk_delete_departments') }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa các khoa đã chọn không?');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="selectAll">
+                <label class="form-check-label" for="selectAll">Chọn tất cả</label>
+            </div>
+            <button type="submit" id="bulkDeleteBtn" class="btn btn-danger" disabled>Xóa các mục đã chọn</button>
+        </div>
+        <ul class="list-group">
+            {% for department in departments %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input dept-checkbox" type="checkbox" name="department_ids" value="{{ department.id }}" id="dept-{{ department.id }}">
+                    <label class="form-check-label" for="dept-{{ department.id }}">
+                        {{ department.name }}
+                    </label>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteSingleDepartment({{ department.id }}, '{{ department.name }}')">Xóa</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </form>
+</div>
+
+<!-- Hidden form for single deletion -->
+<form id="single-delete-form" method="POST" style="display:none;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+</form>
+
+<script>
+function deleteSingleDepartment(id, name) {
+    if (confirm(`Bạn có chắc chắn muốn xóa khoa "${name}" không?`)) {
+        const form = document.getElementById('single-delete-form');
+        form.action = `/admin/department/${id}/delete`;
+        form.submit();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.dept-checkbox');
+    const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+
+    function updateBulkDeleteButton() {
+        const checkedCount = document.querySelectorAll('.dept-checkbox:checked').length;
+        bulkDeleteBtn.disabled = checkedCount === 0;
+        if (checkedCount > 0) {
+            bulkDeleteBtn.textContent = `Xóa ${checkedCount} mục đã chọn`;
+        } else {
+            bulkDeleteBtn.textContent = 'Xóa các mục đã chọn';
+        }
+    }
+
+    selectAll.addEventListener('change', function() {
+        checkboxes.forEach(cb => {
+            cb.checked = selectAll.checked;
+        });
+        updateBulkDeleteButton();
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (!this.checked) {
+                selectAll.checked = false;
+            } else {
+                const allChecked = Array.from(checkboxes).every(c => c.checked);
+                selectAll.checked = allChecked;
+            }
+            updateBulkDeleteButton();
+        });
+    });
+});
+</script>
+{% endblock %}

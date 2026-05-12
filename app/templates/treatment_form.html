@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('patient_code').addEventListener('change', function() {
+        var patientCode = this.value;
+        fetch('/patient/get_patient_name/' + patientCode)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('patient_name').value = data.full_name;
+            });
+    });
+</script>
+{% endblock %}
+{% block content %}
+<style>
+  .form-section {
+    margin-bottom: 1.2rem;
+  }
+  .form-section label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #333;
+  }
+  .signature-section {
+    margin-top: 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
+    margin-top: 3rem;
+  }
+  .signature-block {
+    width: 45%;
+    text-align: center;
+    padding: 0.5rem;
+  }
+  .signature-line {
+    border-bottom: 1px solid #000;
+    height: 1.5rem;
+    margin: 1rem 0;
+  }
+  .form-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #0056b3;
+    position: relative;
+    line-height: 1.2;
+  }
+  .form-code {
+    position: absolute;
+    right: -10px;
+    top: -5px;
+    border: 1px solid black;
+    padding: 0.2rem 0.4rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    background: white;
+  }
+  .date-line {
+    text-align: right;
+    margin-bottom: 2.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  .date-line input {
+    border: 1px solid #333;
+    padding: 0.3rem;
+    border-radius: 3px;
+    width: 200px;
+  }
+  .form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  .form-row {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 1rem;
+  }
+  .form-column {
+    flex: 1;
+  }
+  textarea {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 0.6rem;
+    resize: vertical;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+  }
+  input[type="text"], input[type="date"] {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+  }
+  .btn-group {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem;
+  }
+  .btn {
+    margin: 0 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  .btn-primary {
+    background: #0056b3;
+    border-color: #0056b3;
+  }
+  .btn-secondary {
+    background: #6c757d;
+    border-color: #6c757d;
+  }
+</style>
+
+<div class="form-container">
+  <div style="text-align: center;">
+    <h2 class="form-title" style="font-weight: bold; font-size: 24px; margin-bottom: 0;">PHIẾU ĐỀ NGHỊ SỬA ĐỔI THÔNG TIN</h2>
+    <p style="font-weight: bold; margin-top: 0; margin-bottom: 0;">Mẫu 01-CNTT</p>
+    <p><em>{{ form.request_date(class="form-control", type="date") }}</em></p>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+      <div class="form-column">
+        <div class="form-section">
+          <label>Mã BA:</label>
+          {{ form.patient_code() }}
+        </div>
+        <div class="form-section">
+          <label>Tên bệnh nhân:</label>
+          {{ form.patient_name() }}
+        </div>
+        <div class="form-section">
+          <label>Ngày sinh:</label>
+          {{ form.dob() }}
+        </div>
+        <div class="form-section">
+          <label>Địa chỉ:</label>
+          {{ form.address() }}
+        </div>
+        <div class="form-section">
+          <label>Khoa:</label>
+          {{ form.department() }}
+        </div>
+        <div class="form-section">
+          <label>Số BHYT:</label>
+          {{ form.bhyt() }}
+        </div>
+      </div>
+      <div class="form-column">
+        <div class="form-section">
+          <label>Nội dung thay đổi:</label>
+          {{ form.change_content(rows=6, cols=35) }}
+        </div>
+        <div class="form-section">
+          <label>Lý do:</label>
+          {{ form.reason(rows=6, cols=35) }}
+        </div>
+        <div class="form-section">
+          <label>Tài liệu đính kèm (nếu có):</label>
+          {{ form.attachment(class="form-control") }}
+        </div>
+      </div>
+    </div>
+    {% if can_bypass_finance %}
+    <div class="form-section">
+      {{ form.direct_to_admin() }}
+      <label for="direct_to_admin">Gửi duyệt (trực tiếp cho admin, không qua kế toán)</label>
+    </div>
+    {% endif %}
+    <div class="signature-section">
+        <div class="signature-block">
+            <strong>Người yêu cầu</strong><br>
+            <div class="signature-line"></div>
+            {{ current_user.username + ' - ' + current_user.full_name }}<br>
+            <i>(Ký, ghi rõ họ tên)</i>
+        </div>
+      <div class="signature-block">
+        <strong>Trưởng khoa</strong><br>
+        <div class="signature-line"></div>
+        <i>(Ký, ghi rõ họ tên)</i>
+      </div>
+    </div>
+    <div class="btn-group">
+      {{ form.submit(class="btn btn-primary", value="Gửi") }}
+      <button type="button" onclick="window.print()" class="btn btn-secondary">In</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

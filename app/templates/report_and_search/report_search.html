@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Báo cáo thống kê{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Báo cáo thống kê</h2>
+    <form method="POST" action="{{ url_for('report_and_search.report_search') }}">
+        {{ form.hidden_tag() }}
+        <div class="row mb-3">
+            <div class="col-md-3">
+                {{ form.form_id.label(class="form-label") }}
+                {{ form.form_id(class="form-select") }}
+            </div>
+            <div class="col-md-3">
+                {{ form.department.label(class="form-label") }}
+                {{ form.department(class="form-select") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.start_date.label(class="form-label") }}
+                {{ form.start_date(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.end_date.label(class="form-label") }}
+                {{ form.end_date(class="form-control") }}
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Lọc</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                {{ form.patient_name.label(class="form-label") }}
+                {{ form.patient_name(class="form-control") }}
+            </div>
+            <div class="col-md-3">
+                {{ form.patient_code.label(class="form-label") }}
+                {{ form.patient_code(class="form-control") }}
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" name="export" value="excel" class="btn btn-success w-100">Xuất Excel</button>
+            </div>
+        </div>
+    </form>
+
+    <hr>
+
+    <h4>Kết quả báo cáo</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã bệnh nhân</th>
+                <th>Tên bệnh nhân</th>
+                <th>Ngày gửi</th>
+                <th>Người gửi</th>
+                <th>Nội dung</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in results %}
+            <tr>
+                <td>{{ submission.patient.patient_code }}</td>
+                <td>{{ submission.patient.full_name }}</td>
+                <td>{{ submission.submitted_at.strftime('%d-%m-%Y') }}</td>
+                <td>{{ submission.user.full_name }}</td>
+                <td>{{ submission.form.name }}</td>
+                <td>{{ submission.status }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Không có dữ liệu.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
