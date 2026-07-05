@@ -29,11 +29,8 @@ if not exist "%SOURCE_DB%" (
     exit /b
 )
 
-:: Lay timestamp bang WMIC
-for /f "tokens=1 delims=." %%A in ('wmic os get localdatetime /value') do (
-  for /f "tokens=2 delims==" %%B in ("%%A") do set "datetime=%%B"
-)
-set "TIMESTAMP=!datetime:~0,8!_!datetime:~8,4!"
+:: Lay timestamp bang PowerShell de tranh loi locale va WMIC deprecated
+for /f "usebackq delims=" %%A in (`powershell -NoProfile -Command "Get-Date -Format 'yyyyMMdd_HHmm'"`) do set "TIMESTAMP=%%A"
 
 if not defined TIMESTAMP (
     echo [!] LOI: Khong lay duoc thoi gian he thong.

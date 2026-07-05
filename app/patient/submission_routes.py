@@ -268,13 +268,21 @@ def dynamic_form_delete(submission_id):
 @login_required
 def serve_attachment(attachment_id):
     att = Attachment.query.get_or_404(attachment_id)
-    # Kiem tra quyen: chu so huu hoac admin/finance
+    # Kiem tra quyen: chu so huu hoac admin/finance hoac nguoi co quyen xem bao cao
     is_owner = (att.submission and att.submission.user_id == current_user.id)
-    if not (current_user.is_admin() or is_owner or current_user.is_finance):
+    can_view_stats = current_user.has_permission('access_statistical_report')
+    
+    if not (current_user.is_admin() or is_owner or current_user.is_finance or can_view_stats):
         flash('Ban khong co quyen truy cap tep nay.', 'danger')
         return redirect(url_for('patient.staff_dashboard'))
+    
     directory = os.path.dirname(att.file_path)
     filename  = os.path.basename(att.file_path)
+
+    # Neu la hinh anh va khong yeu cau file raw, tra ve trang xem anh (viewer)
+    if att.mimetype.startswith('image/') and request.args.get('raw') != '1':
+        return render_template('patient/image_viewer_standalone.html', attachment=att)
+
     return send_from_directory(directory, filename)
 
 

@@ -83,6 +83,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(256), nullable=True)
     locked        = db.Column(db.Boolean, nullable=False, default=False)
     parent_id     = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    last_notification_read = db.Column(db.DateTime, nullable=True)
 
     roles = db.relationship(
         'Role', secondary=user_roles, lazy='dynamic',
@@ -177,6 +178,8 @@ class DynamicForm(db.Model):
     description = db.Column(db.Text, nullable=True)
     created_at  = db.Column(db.DateTime, default=datetime.utcnow)
     user_id     = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    status      = db.Column(db.String(50), default='active', nullable=False)
+
 
     fields      = db.relationship('FormField',      backref='form', lazy='dynamic',
                                   cascade='all, delete-orphan')

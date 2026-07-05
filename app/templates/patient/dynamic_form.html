@@ -128,9 +128,13 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        {% if current_user.has_permission('use_camera') %}
+                        {% if current_user.has_permission('use_camera_browser') or current_user.has_permission('use_camera') %}
                         <li><a class="dropdown-item" href="#" id="camera-open-btn"><i
-                                    class="fas fa-camera me-2"></i>Chụp từ Camera</a></li>
+                                    class="fas fa-camera me-2"></i>Chụp từ Camera (Trình duyệt)</a></li>
+                        {% endif %}
+                        {% if current_user.has_permission('use_camera_windows') or current_user.has_permission('use_camera') %}
+                        <li><a class="dropdown-item" href="#" id="camera-native-btn"><i
+                                    class="fab fa-windows me-2"></i>Chụp từ Camera (Windows)</a></li>
                         {% endif %}
 
                     </ul>
@@ -344,7 +348,10 @@
             }
         }
 
+        const cameraNativeBtn = document.getElementById('camera-native-btn');
+        
         if (cameraOpenBtn) cameraOpenBtn.onclick = (e) => { e.preventDefault(); openCamera(); };
+        if (cameraNativeBtn) cameraNativeBtn.onclick = (e) => { e.preventDefault(); ScreenshotModule.takeNativeCameraCapture(); };
         if (cameraCaptureBtn) cameraCaptureBtn.onclick = capturePhoto;
         if (cameraRetakeBtn) cameraRetakeBtn.onclick = resetCameraUI;
         if (cameraSaveBtn) cameraSaveBtn.onclick = savePhoto;

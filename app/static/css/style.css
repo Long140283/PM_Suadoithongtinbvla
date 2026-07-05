@@ -118,4 +118,135 @@
     input[type="file"] {
         display: none !important;
     }
-}
+}
+
+/* Image Viewer Modal Styles */
+#imageViewerModal .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+}
+
+#imageViewerModal .modal-content {
+    background-color: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    color: white;
+}
+
+#imageViewerModal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+}
+
+#imageViewerModal .modal-title {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#imageViewerModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+#imageViewerModal .modal-body {
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    overflow: hidden;
+    background: #000;
+}
+
+.iv-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    padding: 20px;
+}
+
+#iv-image {
+    max-width: 100%;
+    max-height: 100%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    cursor: grab;
+}
+
+#iv-image:active {
+    cursor: grabbing;
+}
+
+.iv-toolbar {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 10px 25px;
+    border-radius: 40px;
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.iv-toolbar button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 5px;
+    min-width: 60px;
+}
+
+.iv-toolbar button i {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+
+.iv-toolbar button span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.iv-toolbar button:hover {
+    color: #00aaff;
+    transform: translateY(-3px);
+}
+
+.iv-toolbar button:active {
+    transform: translateY(0);
+}
+
+.iv-zoom-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 170, 255, 0.8);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1001;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}

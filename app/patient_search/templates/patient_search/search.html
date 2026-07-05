@@ -1,55 +1,133 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block title %}Tìm kiếm bệnh nhân{% endblock %}
+
+{% block container_class %}container-fluid mt-4 px-4{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h1>Tìm kiếm bệnh nhân</h1>
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <div class="row">
-            <div class="col-md-2">{{ wtf.form_field(form.patient_code) }}</div>
-            <div class="col-md-2">{{ wtf.form_field(form.patient_name) }}</div>
-            <div class="col-md-2">{{ wtf.form_field(form.form_name) }}</div>
-            <div class="col-md-2">{{ wtf.form_field(form.department_id) }}</div>
-            <div class="col-md-2">{{ wtf.form_field(form.status) }}</div>
+    <div class="card shadow-sm mb-4 border-primary">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-search me-2"></i>Tìm kiếm bệnh nhân</h5>
         </div>
-        <div class="row">
-            <div class="col-md-3">{{ wtf.form_field(form.start_date) }}</div>
-            <div class="col-md-3">{{ wtf.form_field(form.end_date) }}</div>
+        <div class="card-body bg-light">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                
+                <!-- Hàng 1: Mã BN & Mã BHYT -->
+                <div class="row g-3 mb-3 align-items-center">
+                    <div class="col-md-2 text-md-end fw-bold">Mã BN:</div>
+                    <div class="col-md-4">
+                        {{ form.patient_code(class="form-control", placeholder="Nhập chính xác mã BN") }}
+                    </div>
+                    
+                    <div class="col-md-2 text-md-end fw-bold">Mã BHYT:</div>
+                    <div class="col-md-4">
+                        {{ form.ma_bhyt(class="form-control", placeholder="Nhập 10 số cuối BHYT") }}
+                    </div>
+                </div>
+                
+                <!-- Hàng 2: Họ tên & Số điện thoại -->
+                <div class="row g-3 mb-3 align-items-center">
+                    <div class="col-md-2 text-md-end fw-bold">Họ và tên:</div>
+                    <div class="col-md-4 d-flex align-items-center gap-2">
+                        {{ form.patient_name(class="form-control", placeholder="Nhập họ tên bệnh nhân") }}
+                        <div class="form-check mb-0 text-nowrap">
+                            {{ form.exact_match(class="form-check-input") }}
+                            <label class="form-check-label fw-bold text-primary" for="exact_match">Tìm đúng</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2 text-md-end fw-bold">Số điện thoại:</div>
+                    <div class="col-md-4">
+                        {{ form.phone(class="form-control", placeholder="Nhập số điện thoại") }}
+                    </div>
+                </div>
+
+                <hr class="text-muted opacity-25 my-4">
+
+                <!-- Hàng 3: Tên phiếu & Khoa -->
+                <div class="row g-3 mb-3 align-items-center">
+                    <div class="col-md-2 text-md-end fw-bold">Tên phiếu:</div>
+                    <div class="col-md-4">
+                        {{ form.form_name(class="form-select") }}
+                    </div>
+                    
+                    <div class="col-md-2 text-md-end fw-bold">Khoa phòng:</div>
+                    <div class="col-md-4">
+                        {{ form.department_id(class="form-select") }}
+                    </div>
+                </div>
+
+                <!-- Hàng 4: Trạng thái & Thời gian -->
+                <div class="row g-3 mb-4 align-items-center">
+                    <div class="col-md-2 text-md-end fw-bold">Trạng thái:</div>
+                    <div class="col-md-4">
+                        {{ form.status(class="form-select") }}
+                    </div>
+                    
+                    <div class="col-md-2 text-md-end fw-bold">Thời gian nhận:</div>
+                    <div class="col-md-4 d-flex align-items-center gap-2">
+                        {{ form.start_date(class="form-control") }} 
+                        <span class="text-muted fw-bold">-</span> 
+                        {{ form.end_date(class="form-control") }}
+                    </div>
+                </div>
+                
+                <div class="text-center mt-2">
+                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm rounded-pill">
+                        <i class="fas fa-search me-2"></i>Tìm kiếm dữ liệu
+                    </button>
+                </div>
+            </form>
         </div>
-        {{ form.submit(class="btn btn-primary") }}
-    </form>
+    </div>
 
     {% if searched %}
-    <div class="card shadow-sm mt-4">
-        <div class="card-header bg-success text-white">
-            <h4 class="mb-0">Kết quả tìm kiếm</h4>
+    <div class="card shadow-sm mb-5 border-success">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i>Kết quả tìm kiếm</h5>
+            <span class="badge bg-light text-success rounded-pill">{{ results|length }} kết quả</span>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
             {% if results %}
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-light text-primary">
                             <tr>
-                                <th>Mã BN</th>
+                                <th class="ps-3">Mã BN</th>
                                 <th>Họ và tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Mã BHYT</th>
                                 <th>Tên phiếu</th>
                                 <th>Khoa</th>
-                                <th>Thời gian</th>
-                                <th>Hành động</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày nhận</th>
+                                <th class="text-center pe-3">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for submission in results %}
                             <tr>
-                                <td>{{ submission.patient.patient_code }}</td>
+                                <td class="ps-3 fw-bold">{{ submission.patient.patient_code }}</td>
                                 <td>{{ submission.patient.full_name }}</td>
-                                <td>{{ submission.form.name }}</td>
+                                <td>{{ submission.patient.date_of_birth.strftime('%d/%m/%Y') if submission.patient.date_of_birth else '' }}</td>
+                                <td>{{ submission.patient.bhyt }}</td>
+                                <td><span class="badge bg-info text-dark">{{ submission.form.name }}</span></td>
                                 <td>{{ submission.patient.department.name if submission.patient.department else 'N/A' }}</td>
-                                <td>{{ submission.submitted_at.strftime('%d-%m-%Y %H:%M') }}</td>
                                 <td>
-                                    <a href="{{ url_for('patient.show_dynamic_form_submission', submission_id=submission.id) }}" class="btn btn-sm btn-info">Xem</a>
-                                    <a href="{{ url_for('patient.print_dynamic_form_submission', submission_id=submission.id) }}" class="btn btn-sm btn-secondary ms-1" target="_blank">In</a>
+                                    {% if submission.status == 'approved' %}
+                                        <span class="badge bg-success">Đã duyệt</span>
+                                    {% elif submission.status == 'rejected' %}
+                                        <span class="badge bg-danger">Từ chối</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ submission.submitted_at.strftime('%d-%m-%Y %H:%M') }}</td>
+                                <td class="text-center pe-3">
+                                    <a href="{{ url_for('patient.show_dynamic_form_submission', submission_id=submission.id) }}" class="btn btn-sm btn-outline-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ url_for('patient.print_dynamic_form_submission', submission_id=submission.id) }}" class="btn btn-sm btn-outline-secondary ms-1" target="_blank" title="In phiếu"><i class="fas fa-print"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -57,10 +135,13 @@
                     </table>
                 </div>
             {% else %}
-                <p class="text-center text-muted">Không tìm thấy kết quả nào phù hợp.</p>
+                <div class="text-center py-5">
+                    <i class="fas fa-search-minus fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Không tìm thấy kết quả nào phù hợp.</h5>
+                    <p class="text-muted mb-0">Vui lòng thử lại với các tiêu chí tìm kiếm khác.</p>
+                </div>
             {% endif %}
         </div>
     </div>
     {% endif %}
-</div>
 {% endblock %}

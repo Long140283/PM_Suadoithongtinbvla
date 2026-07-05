@@ -1,11 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, SelectField
+from wtforms import StringField, SubmitField, DateField, SelectField, BooleanField
 from wtforms.validators import Optional
 from app.models import Department, DynamicForm
 
 class PatientSearchForm(FlaskForm):
     patient_code = StringField('Mã bệnh nhân', validators=[Optional()])
     patient_name = StringField('Tên bệnh nhân', validators=[Optional()])
+    ma_bhyt = StringField('Mã BHYT', validators=[Optional()])
+    phone = StringField('Số ĐT', validators=[Optional()])
+    exact_match = BooleanField('Tìm đúng', default=True)
+    
     form_name = SelectField('Tên phiếu', choices=[], validators=[Optional()])
     start_date = DateField('Từ ngày', format='%Y-%m-%d', validators=[Optional()])
     end_date = DateField('Đến ngày', format='%Y-%m-%d', validators=[Optional()])

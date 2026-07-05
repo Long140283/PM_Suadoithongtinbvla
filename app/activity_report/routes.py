@@ -8,7 +8,10 @@ import pandas as pd
 from io import BytesIO
 from datetime import datetime
 
+from flask_login import login_required, current_user
+
 @activity_report_bp.route('/', methods=['GET', 'POST'])
+@login_required
 def activity_report():
     form = ActivityReportForm()
     submissions = []
@@ -54,8 +57,13 @@ def activity_report():
                     submission_data[field.label] = value
                 
                 attachments = Attachment.query.filter_by(form_submission_id=submission.id).all()
-                attachment_filenames = [att.filename for att in attachments]
-                submission_data['Attachments'] = ", ".join(attachment_filenames)
+                attachment_info = []
+                for att in attachments:
+                    # Construct full URL for the attachment
+                    url = url_for('patient.serve_attachment', attachment_id=att.id, _external=True)
+                    attachment_info.append(f"{att.filename}: {url}")
+                
+                submission_data['Attachments'] = "\n".join(attachment_info)
 
                 data.append(submission_data)
 
@@ -64,6 +72,36 @@ def activity_report():
             output = BytesIO()
             writer = pd.ExcelWriter(output, engine='xlsxwriter')
             df.to_excel(writer, sheet_name='Activity Report', index=False)
+            
+            # Access the xlsxwriter workbook and worksheet objects
+            workbook  = writer.book
+            worksheet = writer.sheets['Activity Report']
+            
+            # Add formats
+            link_format = workbook.add_format({'font_color': 'blue', 'underline': 1})
+            wrap_format = workbook.add_format({'text_wrap': True, 'valign': 'top'})
+            
+            # Find the "Attachments" column index
+            try:
+                col_idx = df.columns.get_loc('Attachments')
+                # Set column width and wrap text
+                worksheet.set_column(col_idx, col_idx, 50, wrap_format)
+                
+                # Iterate through the rows and write URLs
+                for row_num, attachment_text in enumerate(df['Attachments']):
+                    if attachment_text:
+                        lines = attachment_text.split('\n')
+                        if len(lines) == 1 and ': http' in lines[0]:
+                            parts = lines[0].split(': ', 1)
+                            if len(parts) == 2:
+                                label, url = parts
+                                worksheet.write_url(row_num + 1, col_idx, url, string=label, cell_format=link_format)
+                        else:
+                            # For multiple attachments, just ensure they are wrapped
+                            worksheet.write(row_num + 1, col_idx, attachment_text, wrap_format)
+            except Exception as e:
+                logger.error(f"Error adding hyperlinks to Excel: {e}")
+
             writer.close()
             output.seek(0)
 

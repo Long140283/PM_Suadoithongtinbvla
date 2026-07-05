@@ -149,7 +149,9 @@
         {% if attachments %}
             <div style="display: flex; flex-wrap: wrap;">
                 {% for attachment in attachments %}
-                    <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank" class="his-attachment-link">
+                    <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank" 
+                       class="his-attachment-link {% if attachment.mimetype.startswith('image/') %}image-viewer-link{% endif %}"
+                       data-filename="{{ attachment.filename }}">
                         <i class="fas fa-download"></i> {{ attachment.filename }}
                     </a>
                 {% endfor %}

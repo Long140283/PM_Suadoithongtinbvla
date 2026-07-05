@@ -23,6 +23,8 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     CSRFProtect(app)
     
+    # Server Info is now handled dynamically in context_processors and routes
+    
     # Blueprints
     from .auth.routes import auth_bp
     from .admin import admin
@@ -31,6 +33,8 @@ def create_app(config_class=Config):
     from .patient_search import patient_search_bp
     from .static_bp import static_bp
     from .screenshot_bp import screenshot_bp
+
+    from .report_search import report_search_bp
 
     # Import patient sub-routes AFTER patient_bp is registered
     # This avoids circular import issues
@@ -46,6 +50,7 @@ def create_app(config_class=Config):
     app.register_blueprint(patient_bp,        url_prefix='/patient')
     app.register_blueprint(activity_report_bp, url_prefix='/activity_report')
     app.register_blueprint(patient_search_bp,  url_prefix='/patient_search')
+    app.register_blueprint(report_search_bp,   url_prefix='/report_search')
     app.register_blueprint(screenshot_bp)
 
     # Context processors & filters

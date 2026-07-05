@@ -281,6 +281,55 @@
 
     <div class="vnpt-footer">
         <div>© 2026 Bệnh viện Đa khoa Long An</div>
+        {% if server_hostname %}
+        <div style="margin-top:6px; font-size:12px; opacity:0.9;">
+            <i class="fas fa-server" style="margin-right:4px;"></i>
+            Máy chủ: <strong>{{ server_hostname }}</strong>
+            &nbsp;|&nbsp;
+            IP hiện tại: <strong>{{ server_local_ip }}:{{ server_port }}</strong>
+            &nbsp;|&nbsp;
+            <button onclick="document.getElementById('qr-modal').style.display='flex'"
+                    style="background:none;border:1px solid rgba(255,255,255,0.6);color:#ffe082;
+                           padding:2px 10px;border-radius:4px;cursor:pointer;font-size:11px;">
+                <i class="fas fa-qrcode" style="margin-right:4px;"></i>QR cho điện thoại
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- QR Code Modal -->
+<div id="qr-modal" onclick="if(event.target===this)this.style.display='none'"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7);
+            z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:12px; padding:28px 32px;
+                text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.4); max-width:320px; width:90%;">
+        <div style="font-size:15px; font-weight:bold; color:#0055aa; margin-bottom:4px;">
+            <i class="fas fa-mobile-alt" style="margin-right:6px;"></i>Truy cập từ điện thoại
+        </div>
+        <div style="font-size:12px; color:#666; margin-bottom:16px;">
+            Quét QR bằng camera điện thoại để mở trang đăng nhập
+        </div>
+        <img src="/qr" alt="QR Code"
+             style="width:200px; height:200px; border:3px solid #0055aa; border-radius:8px;"
+             onerror="this.style.display='none'; document.getElementById('qr-err').style.display='block'">
+        <div id="qr-err" style="display:none; color:#c00; font-size:12px; margin-top:8px;">
+            Không tạo được QR. Vui lòng nhập IP thủ công.
+        </div>
+        <div style="margin-top:14px; font-size:13px; color:#333;">
+            Hoặc nhập IP thủ công:
+            <div style="font-weight:bold; color:#0055aa; font-size:15px; margin-top:4px;">
+                {{ server_local_ip }}:{{ server_port }}
+            </div>
+        </div>
+        <div style="margin-top:8px; font-size:11px; color:#888;">
+            <i class="fas fa-desktop me-1"></i>Tên PC: <span class="fw-bold">{{ server_hostname }}</span>
+        </div>
+        <button onclick="document.getElementById('qr-modal').style.display='none'"
+                style="margin-top:16px; background:#0055aa; color:white; border:none;
+                       padding:8px 24px; border-radius:6px; cursor:pointer; font-size:13px;">
+            Đóng
+        </button>
     </div>
 </div>
 

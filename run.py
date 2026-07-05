@@ -3,7 +3,6 @@ Entry point cua ung dung.
 Khoi tao DB, tao du lieu mac dinh, chay server.
 """
 import os
-import socket
 import logging
 from datetime import timedelta
 
@@ -15,6 +14,11 @@ logger = logging.getLogger(__name__)
 
 app = create_app()
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
+
+# --- Thong tin server da duoc create_app() tu dong detect va luu vao config ---
+_hostname = app.config.get('SERVER_HOSTNAME')
+_local_ip = app.config.get('SERVER_LOCAL_IP')
+_port     = app.config.get('SERVER_PORT')
 
 
 def _seed_permissions():
@@ -29,7 +33,7 @@ def _seed_permissions():
 
 
 def _seed_role(role_name, perm_names):
-    """Tao vai tro voi danh sach quyen neu chua co."""
+    """Tao vai tro voi danh sach quyen neu chua co. Cap nhat quyen moi neu role da ton tai."""
     role = Role.query.filter_by(name=role_name).first()
     if not role:
         role = Role(name=role_name)
@@ -38,6 +42,18 @@ def _seed_role(role_name, perm_names):
         db.session.add(role)
         db.session.commit()
         logger.info('Da tao vai tro: %s', role_name)
+    else:
+        # Them cac quyen moi chua co trong role
+        existing_perm_names = {p.name for p in role.permissions}
+        new_perms = Permission.query.filter(
+            Permission.name.in_(perm_names),
+            ~Permission.name.in_(existing_perm_names)
+        ).all()
+        if new_perms:
+            role.permissions.extend(new_perms)
+            db.session.commit()
+            logger.info('Da cap nhat quyen moi cho vai tro %s: %s',
+                        role_name, [p.name for p in new_perms])
     return role
 
 
@@ -68,24 +84,48 @@ with app.app_context():
     db_uri = app.config['SQLALCHEMY_DATABASE_URI']
     logger.info('Su dung co so du lieu: %s', db_uri)
 
-    hostname = socket.gethostname()
-    try:
-        local_ip = socket.gethostbyname(hostname)
-    except socket.gaierror:
-        local_ip = '127.0.0.1'
+    port = _port
+    url  = f'http://{_local_ip}:{port}'
 
-    port = int(os.environ.get('PORT', 8001))
-    print('-' * 50)
-    print('Ung dung dang chay!')
-    print(f'  http://{local_ip}:{port}')
-    print(f'  http://{hostname}:{port}')
-    print('-' * 50)
+    # --- In QR code ra console de dien thoai quet ---
+    def _print_qr_console(data):
+        try:
+            import qrcode
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=1,
+                border=1,
+            )
+            qr.add_data(data)
+            qr.make(fit=True)
+            # In bang ky tu Unicode block (hien thi dep tren Windows Terminal)
+            matrix = qr.get_matrix()
+            print()
+            for row in matrix:
+                line = ''
+                for cell in row:
+                    line += '██' if cell else '  '
+                print('  ' + line)
+            print()
+        except Exception as e:
+            print(f'  (Khong hien thi duoc QR: {e})')
+
+    print('=' * 60)
+    print('  ỨNG DỤNG ĐANG CHẠY')
+    print('=' * 60)
+    print(f'  PC/Laptop (tên máy): http://{_hostname}:{port}')
+    print(f'  Điện thoại (IP LAN): {url}')
+    print()
+    print('  Quét QR bằng điện thoại để truy cập:')
+    _print_qr_console(url)
+    print(f'  URL: {url}')
+    print('=' * 60)
 
 if __name__ == '__main__':
     debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
-    port = int(os.environ.get('PORT', 8001))
     if debug:
-        app.run(host='0.0.0.0', port=port, debug=True)
+        app.run(host='0.0.0.0', port=_port, debug=True)
     else:
         from waitress import serve
-        serve(app, host='0.0.0.0', port=port)
+        serve(app, host='0.0.0.0', port=_port)

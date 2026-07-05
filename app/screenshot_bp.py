@@ -4,7 +4,7 @@ import uuid
 import json
 import sys
 from flask import Blueprint, jsonify, current_app, send_file, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 try:
     import win32gui
@@ -142,6 +142,63 @@ def native_capture():
         traceback.print_exc()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
+@screenshot_bp.route('/api/screenshot/native_camera', methods=['POST'])
+@login_required
+def native_camera():
+    # Kiểm tra quyền: use_camera_windows hoặc use_camera (legacy)
+    if not (current_user.has_permission('use_camera_windows') or
+            current_user.has_permission('use_camera')):
+        return jsonify({'status': 'error', 'message': 'Bạn không có quyền sử dụng Camera Windows.'}), 403
+    output_filename = f"native_camera_{uuid.uuid4().hex}.png"
+    upload_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], 'temp_captures')
+    os.makedirs(upload_dir, exist_ok=True)
+    output_path = os.path.join(upload_dir, output_filename)
+    
+    script_path = os.path.join(current_app.root_path, 'static', 'bin', 'camera_capture.py')
+    
+    cmd = [sys.executable, script_path, output_path]
+    
+    try:
+        startupinfo = None
+        creationflags = 0
+        if os.name == 'nt':
+            import win32process
+            creationflags = win32process.HIGH_PRIORITY_CLASS
+            startupinfo = subprocess.STARTUPINFO()
+        
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=180, # Camera might take longer to align
+            startupinfo=startupinfo,
+            creationflags=creationflags
+        )
+        
+        if "SUCCESS" in result.stdout:
+            return jsonify({
+                'status': 'success',
+                'filename': output_filename,
+                'url': f'/api/screenshot/get_capture/{output_filename}'
+            })
+        elif "CANCELLED" in result.stdout:
+            return jsonify({'status': 'cancelled'})
+        elif "ERROR:" in result.stdout:
+            error_msg = result.stdout.strip().split("ERROR:")[1]
+            return jsonify({'status': 'error', 'message': error_msg})
+        else:
+            # Clean up stderr if it's just warnings
+            error_msg = result.stderr or result.stdout or "Unknown error"
+            if "[ WARN" in error_msg and "ERROR:" not in error_msg:
+                 return jsonify({'status': 'error', 'message': "Không tìm thấy thiết bị camera hoạt động. Vui lòng kiểm tra kết nối camera."})
+            print(f"CAMERA ERROR: {error_msg}")
+            return jsonify({'status': 'error', 'message': error_msg}), 500
+            
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 def extract_patient_data(text):
     """Map OCR text to patient fields."""
     import re
@@ -181,4 +238,71 @@ def get_capture(filename):
     if os.path.exists(file_path):
         return send_file(file_path, mimetype='image/png')
     return "File not found", 404
+
+
+@screenshot_bp.route('/api/screenshot/check_camera_permission', methods=['GET'])
+@login_required
+def check_camera_permission():
+    """Trả về quyền camera của user hiện tại để JS biết hiển thị nút nào."""
+    return jsonify({
+        'status': 'success',
+        'can_use_browser_camera': (
+            current_user.has_permission('use_camera_browser') or
+            current_user.has_permission('use_camera')
+        ),
+        'can_use_windows_camera': (
+            current_user.has_permission('use_camera_windows') or
+            current_user.has_permission('use_camera')
+        ),
+    })
+
+
+@screenshot_bp.route('/api/server-info', methods=['GET'])
+def server_info():
+    """
+    Trả về hostname và danh sách tất cả IP hiện tại của máy chủ.
+    Không yêu cầu đăng nhập — dùng để client tự tìm địa chỉ server.
+    """
+    from .utils import get_server_info
+    info = get_server_info()
+    return jsonify({
+        'hostname':     info['hostname'],
+        'ip':           info['local_ip'],
+        'all_ips':      info['all_ips'],
+        'port':         info['port'],
+        'url_hostname': f"http://{info['hostname']}:{info['port']}",
+        'url_ip':       f"http://{info['local_ip']}:{info['port']}",
+        'all_urls':     [f"http://{ip}:{info['port']}" for ip in info['all_ips']]
+    })
+
+
+@screenshot_bp.route('/qr')
+def login_qr():
+    """
+    Trả về QR code ảnh PNG chứa URL đăng nhập theo IP hiện tại.
+    Không yêu cầu đăng nhập — dùng để mobile quét và truy cập ngay.
+    """
+    import io
+    import qrcode
+    from .utils import get_server_info
+
+    info = get_server_info()
+    # Nếu có IP truyền vào thì dùng, không thì dùng IP mặc định
+    target_ip = request.args.get('ip', info['local_ip'])
+    url  = f"http://{target_ip}:{info['port']}"
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=8,
+        border=3,
+    )
+    qr.add_data(url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color='#0055aa', back_color='white')
+
+    buf = io.BytesIO()
+    img.save(buf, format='PNG')
+    buf.seek(0)
+    return send_file(buf, mimetype='image/png', max_age=0)
 

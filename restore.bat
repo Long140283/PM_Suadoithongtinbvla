@@ -120,7 +120,11 @@ if !errorlevel! neq 0 (
 echo [OK] Da phuc hoi database.
 
 :: 2. Phuc hoi thu muc Uploads
-if not exist "%DEST_UPLOADS_PATH%" mkdir "%DEST_UPLOADS_PATH%"
+if exist "%DEST_UPLOADS_PATH%" (
+    echo [+] Dang xoa sach thu muc uploads hien tai de dong bo...
+    rmdir /S /Q "%DEST_UPLOADS_PATH%"
+)
+mkdir "%DEST_UPLOADS_PATH%"
 
 if not exist "!SOURCE_UPLOADS_DIR!" (
     echo [!] CANH BAO: Khong tim thay thu muc 'uploads' trong ban sao luu. Bo qua...

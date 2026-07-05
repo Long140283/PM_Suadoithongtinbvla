@@ -10,3 +10,12 @@ Werkzeug==2.3.6
 Flask-Bootstrap==3.3.7.1
 waitress==3.0.2
 gunicorn==21.2.0
+pillow==10.4.0
+opencv-python==4.13.0.92
+easyocr==1.7.2
+Flask-Script==2.0.6
+pandas==2.3.1
+pytz==2025.2
+qrcode==8.2
+pywin32==311
+sqlalchemy==2.0.45

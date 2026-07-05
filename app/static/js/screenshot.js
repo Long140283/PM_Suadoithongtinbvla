@@ -338,6 +338,45 @@ const ScreenshotModule = (function() {
         await takeNativeRegionScreenshot();
     }
 
+    async function takeNativeCameraCapture() {
+        if (loadingModal) {
+            const body = document.querySelector('#loadingModal .modal-body p');
+            if (body) body.innerText = "Đang mở Camera trên máy tính... Vui lòng nhấn ENTER để chụp hoặc ESC để hủy.";
+            loadingModal.show();
+        }
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const response = await fetch('/api/screenshot/native_camera', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                const imgResponse = await fetch(result.url);
+                const blob = await imgResponse.blob();
+                attachFileToInput(blob, `camera-native-${Date.now()}.png`);
+            } else if (result.status === 'cancelled') {
+                console.log('Camera capture cancelled by user');
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (err) {
+            console.error("Native camera capture failed:", err);
+            let msg = "Lỗi khi mở camera trên máy tính: " + err.message;
+            if (err.message.includes("Could not open camera")) {
+                msg += "\n\nGợi ý: \n1. Kiểm tra camera có đang bị ứng dụng khác (Zoom, Teams, Zalo...) sử dụng không.\n2. Kiểm tra 'Cài đặt quyền riêng tư' (Privacy Settings) trên Windows có cho phép ứng dụng truy cập Camera không.";
+            }
+            alert(msg);
+        } finally {
+            if (loadingModal) loadingModal.hide();
+        }
+    }
+
     function showRegionSelectionOverlay(sourceCanvas) {
         const overlay = document.createElement('div');
         overlay.id = 'universal-capture-overlay';
@@ -516,6 +555,7 @@ const ScreenshotModule = (function() {
         init: init,
         takeUniversalRegionScreenshot: takeUniversalRegionScreenshot,
         takeNativeRegionScreenshot: takeNativeRegionScreenshot,
+        takeNativeCameraCapture: takeNativeCameraCapture,
         listWindows: listWindows,
         previewImage: previewImage,
         performOCR: performOCR,

@@ -1,0 +1,738 @@
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+No Python at '"C:\Program Files\Python312\python.exe'
+2026-06-04 14:02:43,536 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-04 14:02:43,537 [INFO] __main__: ============================================================
+2026-06-04 14:02:43,537 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-04 14:02:43,537 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-04 14:02:43,537 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-04 14:02:43,537 [INFO] __main__: ============================================================
+2026-06-04 14:02:43,546 [INFO] __main__: Khoi dong Waitress server...
+2026-06-04 14:02:43,549 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-04 14:02:55,192 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-04 14:02:55,193 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-04 14:02:57,401 [INFO] root: EasyOCR Ready!
+2026-06-04 14:04:00,387 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-04 14:04:00,387 [INFO] __main__: ============================================================
+2026-06-04 14:04:00,387 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-04 14:04:00,387 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-04 14:04:00,387 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-04 14:04:00,387 [INFO] __main__: ============================================================
+2026-06-04 14:04:00,395 [INFO] __main__: Khoi dong Waitress server...
+2026-06-04 14:04:00,397 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-04 14:04:05,194 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-04 14:04:05,195 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-04 14:04:06,699 [INFO] root: EasyOCR Ready!
+2026-06-04 14:16:47,643 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-04 14:16:47,643 [INFO] __main__: ============================================================
+2026-06-04 14:16:47,643 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-04 14:16:47,643 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-04 14:16:47,643 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-04 14:16:47,643 [INFO] __main__: ============================================================
+2026-06-04 14:16:47,652 [INFO] __main__: Khoi dong Waitress server...
+2026-06-04 14:16:47,654 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-04 14:16:52,078 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-04 14:16:52,079 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-04 14:16:53,676 [INFO] root: EasyOCR Ready!
+2026-06-04 14:20:39,846 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-04 14:20:39,846 [INFO] __main__: ============================================================
+2026-06-04 14:20:39,846 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-04 14:20:39,846 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-04 14:20:39,846 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-04 14:20:39,846 [INFO] __main__: ============================================================
+2026-06-04 14:20:39,855 [INFO] __main__: Khoi dong Waitress server...
+2026-06-04 14:20:39,857 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-04 14:20:44,464 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-04 14:20:44,465 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-04 14:20:46,037 [INFO] root: EasyOCR Ready!
+2026-06-04 16:27:36,652 [WARNING] app.decorators: Permission denied: user=TUYENNTK2 permission=access_admin_dashboard path=/admin/dashboard
+2026-06-04 23:00:14,404 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-04 23:00:14,404 [INFO] __main__: ============================================================
+2026-06-04 23:00:14,404 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-04 23:00:14,404 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-04 23:00:14,404 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-04 23:00:14,404 [INFO] __main__: ============================================================
+2026-06-04 23:00:14,423 [INFO] __main__: Khoi dong Waitress server...
+2026-06-04 23:00:14,425 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-04 23:00:26,092 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-04 23:00:26,093 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-04 23:00:27,818 [INFO] root: EasyOCR Ready!
+2026-06-05 06:46:44,330 [INFO] __main__: Da ghi server_info.txt: http://172.25.240.1:8001
+2026-06-05 06:46:44,332 [INFO] __main__: ============================================================
+2026-06-05 06:46:44,332 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-05 06:46:44,333 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-05 06:46:44,339 [INFO] __main__:   IP LAN    : http://172.25.240.1:8001
+2026-06-05 06:46:44,339 [INFO] __main__: ============================================================
+2026-06-05 06:46:44,378 [INFO] __main__: Khoi dong Waitress server...
+2026-06-05 06:46:44,381 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-05 06:46:59,218 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-05 06:46:59,219 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-05 06:47:01,071 [INFO] root: EasyOCR Ready!
+2026-06-05 11:32:31,180 [WARNING] app.decorators: Permission denied: user=TUYENNTK2 permission=access_admin_dashboard path=/admin/dashboard
+2026-06-05 15:26:18,008 [WARNING] app.decorators: Permission denied: user=TRINHMTT permission=access_admin_dashboard path=/admin/dashboard
+2026-06-05 15:26:48,704 [WARNING] app.decorators: Permission denied: user=TRINHMTT permission=access_admin_dashboard path=/admin/dashboard
+2026-06-08 06:48:00,161 [INFO] __main__: Da ghi server_info.txt: http://172.24.32.1:8001
+2026-06-08 06:48:00,162 [INFO] __main__: ============================================================
+2026-06-08 06:48:00,162 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-08 06:48:00,162 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-08 06:48:00,162 [INFO] __main__:   IP LAN    : http://172.24.32.1:8001
+2026-06-08 06:48:00,162 [INFO] __main__: ============================================================
+2026-06-08 06:48:00,194 [INFO] __main__: Khoi dong Waitress server...
+2026-06-08 06:48:00,197 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-08 06:48:14,190 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-08 06:48:14,191 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-08 06:48:15,979 [INFO] root: EasyOCR Ready!
+2026-06-09 23:00:15,023 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-09 23:00:15,024 [INFO] __main__: ============================================================
+2026-06-09 23:00:15,024 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-09 23:00:15,024 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-09 23:00:15,024 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-09 23:00:15,024 [INFO] __main__: ============================================================
+2026-06-09 23:00:15,042 [INFO] __main__: Khoi dong Waitress server...
+2026-06-09 23:00:15,045 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-09 23:00:24,601 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-09 23:00:24,602 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-09 23:00:26,715 [INFO] root: EasyOCR Ready!
+2026-06-10 06:46:11,419 [INFO] __main__: Da ghi server_info.txt: http://172.24.176.1:8001
+2026-06-10 06:46:11,421 [INFO] __main__: ============================================================
+2026-06-10 06:46:11,421 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-10 06:46:11,421 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-10 06:46:11,421 [INFO] __main__:   IP LAN    : http://172.24.176.1:8001
+2026-06-10 06:46:11,421 [INFO] __main__: ============================================================
+2026-06-10 06:46:11,535 [INFO] __main__: Khoi dong Waitress server...
+2026-06-10 06:46:11,689 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-10 06:46:28,814 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-10 06:46:28,815 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-10 06:46:30,836 [INFO] root: EasyOCR Ready!
+2026-06-10 11:32:03,162 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-06-10 11:32:03,163 [INFO] __main__: ============================================================
+2026-06-10 11:32:03,163 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-10 11:32:03,163 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-10 11:32:03,163 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-06-10 11:32:03,163 [INFO] __main__: ============================================================
+2026-06-10 11:32:03,190 [INFO] __main__: Khoi dong Waitress server...
+2026-06-10 11:32:03,193 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-10 11:32:21,897 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-10 11:32:21,899 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-10 11:32:25,157 [INFO] root: EasyOCR Ready!
+2026-06-10 11:33:41,383 [INFO] __main__: Da ghi server_info.txt: http://172.30.160.1:8001
+2026-06-10 11:33:41,383 [INFO] __main__: ============================================================
+2026-06-10 11:33:41,383 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-10 11:33:41,383 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-10 11:33:41,383 [INFO] __main__:   IP LAN    : http://172.30.160.1:8001
+2026-06-10 11:33:41,383 [INFO] __main__: ============================================================
+2026-06-10 11:33:41,406 [INFO] __main__: Khoi dong Waitress server...
+2026-06-10 11:33:41,408 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-10 11:33:50,729 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-10 11:33:50,730 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-10 11:33:52,385 [INFO] root: EasyOCR Ready!
+2026-06-10 23:00:13,867 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.117:8001
+2026-06-10 23:00:13,868 [INFO] __main__: ============================================================
+2026-06-10 23:00:13,868 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-10 23:00:13,869 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-10 23:00:13,869 [INFO] __main__:   IP LAN    : http://172.16.1.117:8001
+2026-06-10 23:00:13,869 [INFO] __main__: ============================================================
+2026-06-10 23:00:13,888 [INFO] __main__: Khoi dong Waitress server...
+2026-06-10 23:00:13,889 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-10 23:00:23,178 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-10 23:00:23,179 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-10 23:00:24,954 [INFO] root: EasyOCR Ready!
+2026-06-11 06:40:00,869 [INFO] __main__: Da ghi server_info.txt: http://172.26.192.1:8001
+2026-06-11 06:40:00,870 [INFO] __main__: ============================================================
+2026-06-11 06:40:00,870 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-06-11 06:40:00,870 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-06-11 06:40:00,870 [INFO] __main__:   IP LAN    : http://172.26.192.1:8001
+2026-06-11 06:40:00,870 [INFO] __main__: ============================================================
+2026-06-11 06:40:00,889 [INFO] __main__: Khoi dong Waitress server...
+2026-06-11 06:40:00,891 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-06-11 06:40:12,211 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-06-11 06:40:12,212 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-06-11 06:40:14,333 [INFO] root: EasyOCR Ready!
+2026-07-01 20:06:01,933 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:06:01,933 [INFO] __main__: ============================================================
+2026-07-01 20:06:01,933 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:06:01,933 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:06:01,933 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:06:01,934 [INFO] __main__: ============================================================
+2026-07-01 20:06:01,944 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:06:01,946 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:06:06,545 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:06:06,546 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:06:10,262 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:06:10,263 [INFO] __main__: ============================================================
+2026-07-01 20:06:10,263 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:06:10,263 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:06:10,263 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:06:10,263 [INFO] __main__: ============================================================
+2026-07-01 20:06:10,272 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:06:10,274 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:06:14,519 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:06:14,520 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:06:15,834 [INFO] root: EasyOCR Ready!
+2026-07-01 20:06:38,291 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:06:38,292 [INFO] __main__: ============================================================
+2026-07-01 20:06:38,292 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:06:38,292 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:06:38,292 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:06:38,292 [INFO] __main__: ============================================================
+2026-07-01 20:06:38,300 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:06:38,301 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:06:42,920 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:06:42,921 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:06:44,453 [INFO] root: EasyOCR Ready!
+2026-07-01 20:10:22,037 [ERROR] app: Exception on /admin/forms/create [POST]
+Traceback (most recent call last):
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: dynamic_form.status
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\PM_SuaDoiThongTin\app\decorators.py", line 30, in decorated_function
+    return f(*args, **kwargs)
+  File "D:\PM_SuaDoiThongTin\app\admin\routes.py", line 200, in create_form
+    db.session.flush()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\scoping.py", line 924, in flush
+    return self._proxied.flush(objects=objects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: dynamic_form.status
+[SQL: INSERT INTO dynamic_form (name, description, created_at, user_id) VALUES (?, ?, ?, ?)]
+[parameters: ('Khoa Khám Bệnh', 'utyut', '2026-07-01 13:10:22.036099', 1)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-07-01 20:12:38,625 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:12:38,626 [INFO] __main__: ============================================================
+2026-07-01 20:12:38,626 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:12:38,626 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:12:38,626 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:12:38,626 [INFO] __main__: ============================================================
+2026-07-01 20:12:38,634 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:12:38,636 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:12:43,432 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:12:43,433 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:12:44,939 [INFO] root: EasyOCR Ready!
+2026-07-01 20:17:34,329 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:17:34,329 [INFO] __main__: ============================================================
+2026-07-01 20:17:34,329 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:17:34,329 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:17:34,329 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:17:34,330 [INFO] __main__: ============================================================
+2026-07-01 20:17:34,338 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:17:34,340 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:17:39,009 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:17:39,009 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:17:40,446 [INFO] root: EasyOCR Ready!
+2026-07-01 20:20:53,402 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:20:53,402 [INFO] __main__: ============================================================
+2026-07-01 20:20:53,402 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:20:53,402 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:20:53,402 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:20:53,402 [INFO] __main__: ============================================================
+2026-07-01 20:20:53,411 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:20:53,412 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:20:58,264 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:20:58,265 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:20:59,757 [INFO] root: EasyOCR Ready!
+2026-07-01 20:23:08,842 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:23:08,843 [INFO] __main__: ============================================================
+2026-07-01 20:23:08,843 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:23:08,843 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:23:08,843 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:23:08,843 [INFO] __main__: ============================================================
+2026-07-01 20:23:08,852 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:23:08,854 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:23:16,556 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:23:16,556 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:23:19,874 [INFO] root: EasyOCR Ready!
+2026-07-01 20:26:21,579 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:26:21,579 [INFO] __main__: ============================================================
+2026-07-01 20:26:21,579 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:26:21,579 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:26:21,579 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:26:21,579 [INFO] __main__: ============================================================
+2026-07-01 20:26:21,597 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:26:21,599 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:26:27,468 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:26:27,468 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:26:29,003 [INFO] root: EasyOCR Ready!
+2026-07-01 20:28:44,447 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:28:44,447 [INFO] __main__: ============================================================
+2026-07-01 20:28:44,447 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:28:44,447 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:28:44,447 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:28:44,447 [INFO] __main__: ============================================================
+2026-07-01 20:28:44,455 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:28:44,457 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:28:49,032 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:28:49,032 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:28:50,488 [INFO] root: EasyOCR Ready!
+2026-07-01 20:31:15,469 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 20:31:15,470 [INFO] __main__: ============================================================
+2026-07-01 20:31:15,470 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 20:31:15,470 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 20:31:15,470 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 20:31:15,470 [INFO] __main__: ============================================================
+2026-07-01 20:31:15,478 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 20:31:15,480 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 20:31:19,874 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 20:31:19,874 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 20:31:21,234 [INFO] root: EasyOCR Ready!
+2026-07-01 21:28:48,245 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:28:48,245 [INFO] __main__: ============================================================
+2026-07-01 21:28:48,245 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:28:48,245 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:28:48,245 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:28:48,245 [INFO] __main__: ============================================================
+2026-07-01 21:28:48,263 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:28:48,265 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:28:56,585 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 21:28:56,585 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 21:29:00,102 [INFO] root: EasyOCR Ready!
+2026-07-01 21:30:15,579 [WARNING] app.decorators: Permission denied: user=lucnt permission=access_admin_dashboard path=/admin/dashboard
+2026-07-01 21:30:35,946 [WARNING] app.decorators: Permission denied: user=lucnt permission=access_admin_dashboard path=/admin/dashboard
+2026-07-01 21:46:32,627 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:46:32,628 [INFO] __main__: ============================================================
+2026-07-01 21:46:32,628 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:46:32,628 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:46:32,628 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:46:32,628 [INFO] __main__: ============================================================
+2026-07-01 21:46:32,643 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:46:32,645 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:46:35,665 [INFO] torch._subclasses.fake_tensor: FakeTensor cache stats:
+2026-07-01 21:46:35,665 [INFO] torch._subclasses.fake_tensor:   cache_hits: 0
+2026-07-01 21:46:35,665 [INFO] torch._subclasses.fake_tensor:   cache_misses: 0
+2026-07-01 21:46:37,573 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:46:37,573 [INFO] __main__: ============================================================
+2026-07-01 21:46:37,573 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:46:37,574 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:46:37,574 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:46:37,574 [INFO] __main__: ============================================================
+2026-07-01 21:46:37,582 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:46:37,584 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:46:43,120 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 21:46:43,120 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 21:46:44,738 [INFO] root: EasyOCR Ready!
+2026-07-01 21:52:23,939 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:52:23,939 [INFO] __main__: ============================================================
+2026-07-01 21:52:23,939 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:52:23,939 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:52:23,939 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:52:23,939 [INFO] __main__: ============================================================
+2026-07-01 21:52:23,947 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:52:23,948 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:52:29,735 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:52:29,735 [INFO] __main__: ============================================================
+2026-07-01 21:52:29,735 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:52:29,735 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:52:29,735 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:52:29,735 [INFO] __main__: ============================================================
+2026-07-01 21:52:29,744 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:52:29,746 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:52:33,951 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 21:52:33,951 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 21:52:35,345 [INFO] root: EasyOCR Ready!
+2026-07-01 21:53:52,504 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:53:52,504 [INFO] __main__: ============================================================
+2026-07-01 21:53:52,504 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:53:52,504 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:53:52,504 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:53:52,504 [INFO] __main__: ============================================================
+2026-07-01 21:53:52,513 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:53:52,516 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:53:58,764 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:53:58,765 [INFO] __main__: ============================================================
+2026-07-01 21:53:58,765 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:53:58,765 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:53:58,765 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:53:58,765 [INFO] __main__: ============================================================
+2026-07-01 21:53:58,773 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:53:58,776 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:54:03,147 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 21:54:03,148 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 21:54:04,895 [INFO] root: EasyOCR Ready!
+Traceback (most recent call last):
+  File "D:\PM_SuaDoiThongTin\app\screenshot_bp.py", line 104, in native_capture
+    result = subprocess.run(
+        cmd,
+    ...<4 lines>...
+        creationflags=creationflags
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1643, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\LONG\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'D:\\PM_SuaDoiThongTin\\app\\static\\bin\\clipper.py', 'D:\\PM_SuaDoiThongTin\\app\\static\\uploads\\temp_captures\\native_capture_2d542d8042be438aad6d3f93c031d01b.png', '--mode', 'region']' timed out after 120 seconds
+2026-07-01 21:58:32,398 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:58:32,398 [INFO] __main__: ============================================================
+2026-07-01 21:58:32,398 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:58:32,398 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:58:32,398 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:58:32,398 [INFO] __main__: ============================================================
+2026-07-01 21:58:32,411 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:58:32,413 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:58:38,812 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 21:58:38,812 [INFO] __main__: ============================================================
+2026-07-01 21:58:38,812 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 21:58:38,812 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 21:58:38,812 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 21:58:38,812 [INFO] __main__: ============================================================
+2026-07-01 21:58:38,820 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 21:58:38,822 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 21:58:43,733 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 21:58:43,733 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 21:58:45,329 [INFO] root: EasyOCR Ready!
+Traceback (most recent call last):
+  File "D:\PM_SuaDoiThongTin\app\screenshot_bp.py", line 104, in native_capture
+    result = subprocess.run(
+        cmd,
+    ...<4 lines>...
+        creationflags=creationflags
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1643, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\LONG\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'D:\\PM_SuaDoiThongTin\\app\\static\\bin\\clipper.py', 'D:\\PM_SuaDoiThongTin\\app\\static\\uploads\\temp_captures\\native_capture_8f2cfea439304e1aa17e72b1023cb63d.png', '--mode', 'region']' timed out after 120 seconds
+Traceback (most recent call last):
+  File "D:\PM_SuaDoiThongTin\app\screenshot_bp.py", line 104, in native_capture
+    result = subprocess.run(
+        cmd,
+    ...<4 lines>...
+        creationflags=creationflags
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1643, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\LONG\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'D:\\PM_SuaDoiThongTin\\app\\static\\bin\\clipper.py', 'D:\\PM_SuaDoiThongTin\\app\\static\\uploads\\temp_captures\\native_capture_bbb776a1e0c847f5acf025b1755b6106.png', '--mode', 'region']' timed out after 120 seconds
+Traceback (most recent call last):
+  File "D:\PM_SuaDoiThongTin\app\screenshot_bp.py", line 104, in native_capture
+    result = subprocess.run(
+        cmd,
+    ...<4 lines>...
+        creationflags=creationflags
+    )
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LONG\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1643, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\LONG\\AppData\\Local\\Programs\\Python\\Python313\\python.exe', 'D:\\PM_SuaDoiThongTin\\app\\static\\bin\\clipper.py', 'D:\\PM_SuaDoiThongTin\\app\\static\\uploads\\temp_captures\\native_capture_d1b895a55a844e6a8f18a06adce3c2e8.png', '--mode', 'region']' timed out after 120 seconds
+2026-07-01 23:00:09,937 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-01 23:00:09,937 [INFO] __main__: ============================================================
+2026-07-01 23:00:09,937 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-01 23:00:09,938 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-01 23:00:09,938 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-01 23:00:09,938 [INFO] __main__: ============================================================
+2026-07-01 23:00:09,952 [INFO] __main__: Khoi dong Waitress server...
+2026-07-01 23:00:09,955 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-01 23:00:15,284 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-01 23:00:15,284 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-01 23:00:16,705 [INFO] root: EasyOCR Ready!
+2026-07-02 05:44:16,592 [WARNING] app.decorators: Permission denied: user=lucnt permission=access_admin_dashboard path=/admin/dashboard
+2026-07-02 11:59:15,808 [INFO] __main__: Da ghi server_info.txt: http://172.27.144.1:8001
+2026-07-02 11:59:15,809 [INFO] __main__: ============================================================
+2026-07-02 11:59:15,809 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-02 11:59:15,809 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-02 11:59:15,809 [INFO] __main__:   IP LAN    : http://172.27.144.1:8001
+2026-07-02 11:59:15,809 [INFO] __main__: ============================================================
+2026-07-02 11:59:15,833 [INFO] __main__: Khoi dong Waitress server...
+2026-07-02 11:59:15,835 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-02 11:59:30,556 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-02 11:59:30,558 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-02 11:59:32,676 [INFO] root: EasyOCR Ready!
+2026-07-02 23:00:16,343 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.187:8001
+2026-07-02 23:00:16,344 [INFO] __main__: ============================================================
+2026-07-02 23:00:16,344 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-02 23:00:16,344 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-02 23:00:16,344 [INFO] __main__:   IP LAN    : http://172.16.1.187:8001
+2026-07-02 23:00:16,344 [INFO] __main__: ============================================================
+2026-07-02 23:00:16,361 [INFO] __main__: Khoi dong Waitress server...
+2026-07-02 23:00:16,364 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-02 23:00:26,091 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-02 23:00:26,092 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-02 23:00:28,131 [INFO] root: EasyOCR Ready!
+2026-07-03 07:52:12,043 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-03 07:52:12,045 [INFO] __main__: ============================================================
+2026-07-03 07:52:12,045 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 07:52:12,045 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 07:52:12,045 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-03 07:52:12,045 [INFO] __main__: ============================================================
+2026-07-03 07:52:12,116 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 07:52:12,120 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 07:52:26,746 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 07:52:26,747 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 07:52:28,917 [INFO] root: EasyOCR Ready!
+2026-07-03 14:20:38,078 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-03 14:20:38,079 [INFO] __main__: ============================================================
+2026-07-03 14:20:38,079 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 14:20:38,079 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 14:20:38,079 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-03 14:20:38,079 [INFO] __main__: ============================================================
+2026-07-03 14:20:38,096 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 14:20:38,098 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 14:20:52,966 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 14:20:52,967 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 14:20:55,084 [INFO] root: EasyOCR Ready!
+2026-07-03 14:23:01,768 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-03 14:23:01,770 [INFO] __main__: ============================================================
+2026-07-03 14:23:01,770 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 14:23:01,770 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 14:23:01,770 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-03 14:23:01,770 [INFO] __main__: ============================================================
+2026-07-03 14:23:01,832 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 14:23:01,835 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 14:23:19,100 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 14:23:19,101 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 14:23:20,905 [INFO] root: EasyOCR Ready!
+2026-07-03 14:24:08,152 [INFO] __main__: Da ghi server_info.txt: http://172.19.48.1:8001
+2026-07-03 14:24:08,155 [INFO] __main__: ============================================================
+2026-07-03 14:24:08,155 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 14:24:08,155 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 14:24:08,155 [INFO] __main__:   IP LAN    : http://172.19.48.1:8001
+2026-07-03 14:24:08,155 [INFO] __main__: ============================================================
+2026-07-03 14:24:08,183 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 14:24:08,185 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 14:24:22,232 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 14:24:22,234 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 14:24:24,122 [INFO] root: EasyOCR Ready!
+2026-07-03 14:25:08,654 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-03 14:25:08,655 [INFO] __main__: ============================================================
+2026-07-03 14:25:08,655 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 14:25:08,656 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 14:25:08,656 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-03 14:25:08,656 [INFO] __main__: ============================================================
+2026-07-03 14:25:08,693 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 14:25:08,697 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 14:25:21,751 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 14:25:21,753 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 14:25:23,670 [INFO] root: EasyOCR Ready!
+2026-07-03 15:04:31,152 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-03 15:04:31,154 [INFO] __main__: ============================================================
+2026-07-03 15:04:31,154 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 15:04:31,154 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 15:04:31,154 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-03 15:04:31,155 [INFO] __main__: ============================================================
+2026-07-03 15:04:31,231 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 15:04:31,238 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 15:04:45,186 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 15:04:45,187 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 15:04:47,067 [INFO] root: EasyOCR Ready!
+2026-07-03 23:00:18,317 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.199:8001
+2026-07-03 23:00:18,318 [INFO] __main__: ============================================================
+2026-07-03 23:00:18,318 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-03 23:00:18,318 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-03 23:00:18,318 [INFO] __main__:   IP LAN    : http://172.16.1.199:8001
+2026-07-03 23:00:18,318 [INFO] __main__: ============================================================
+2026-07-03 23:00:18,335 [INFO] __main__: Khoi dong Waitress server...
+2026-07-03 23:00:18,337 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-03 23:00:28,681 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-03 23:00:28,682 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-03 23:00:37,146 [INFO] root: EasyOCR Ready!
+2026-07-04 13:07:54,245 [INFO] __main__: Da ghi server_info.txt: http://127.0.0.1:8001
+2026-07-04 13:07:54,246 [INFO] __main__: ============================================================
+2026-07-04 13:07:54,246 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-04 13:07:54,246 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-04 13:07:54,246 [INFO] __main__:   IP LAN    : http://127.0.0.1:8001
+2026-07-04 13:07:54,246 [INFO] __main__: ============================================================
+2026-07-04 13:07:54,285 [INFO] __main__: Khoi dong Waitress server...
+2026-07-04 13:07:54,304 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-04 13:08:08,382 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-04 13:08:08,383 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-04 13:08:10,536 [INFO] root: EasyOCR Ready!
+2026-07-04 21:39:53,231 [INFO] __main__: Da ghi server_info.txt: http://172.20.112.1:8001
+2026-07-04 21:39:53,232 [INFO] __main__: ============================================================
+2026-07-04 21:39:53,232 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-04 21:39:53,233 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-04 21:39:53,233 [INFO] __main__:   IP LAN    : http://172.20.112.1:8001
+2026-07-04 21:39:53,234 [INFO] __main__: ============================================================
+2026-07-04 21:39:53,278 [INFO] __main__: Khoi dong Waitress server...
+2026-07-04 21:39:53,296 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-04 21:40:04,095 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-04 21:40:04,096 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-04 21:40:06,106 [INFO] root: EasyOCR Ready!
+2026-07-04 23:00:13,257 [INFO] __main__: Da ghi server_info.txt: http://172.16.1.199:8001
+2026-07-04 23:00:13,258 [INFO] __main__: ============================================================
+2026-07-04 23:00:13,258 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-04 23:00:13,258 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-04 23:00:13,258 [INFO] __main__:   IP LAN    : http://172.16.1.199:8001
+2026-07-04 23:00:13,258 [INFO] __main__: ============================================================
+2026-07-04 23:00:13,273 [INFO] __main__: Khoi dong Waitress server...
+2026-07-04 23:00:13,275 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-04 23:00:21,279 [INFO] root: Initializing EasyOCR (Vietnamese)...
+2026-07-04 23:00:21,280 [WARNING] easyocr.easyocr: Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+2026-07-04 23:00:22,829 [INFO] root: EasyOCR Ready!
+2026-07-05 10:21:20,486 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.schemas
+2026-07-05 10:21:20,527 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.tables
+2026-07-05 10:21:20,529 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.types
+2026-07-05 10:21:20,533 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.constraints
+2026-07-05 10:21:20,543 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.defaults
+2026-07-05 10:21:20,545 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.comments
+2026-07-05 10:21:41,622 [INFO] __main__: Da ghi server_info.txt: http://192.168.1.3:8001
+2026-07-05 10:21:41,625 [INFO] __main__: ============================================================
+2026-07-05 10:21:41,626 [INFO] __main__:   MAY CHU DANG CHAY (WAITRESS - 24/7 SERVICE)
+2026-07-05 10:21:41,627 [INFO] __main__:   PC/Laptop : http://SDTTBV:8001
+2026-07-05 10:21:41,629 [INFO] __main__:   IP LAN    : http://192.168.1.3:8001
+2026-07-05 10:21:41,630 [INFO] __main__: ============================================================
+2026-07-05 10:21:41,808 [INFO] __main__: Khoi dong Waitress server...
+2026-07-05 10:21:41,841 [INFO] waitress: Serving on http://0.0.0.0:8001
+2026-07-05 10:21:42,359 [ERROR] root: Failed to initialize EasyOCR: No module named 'easyocr'

@@ -16,6 +16,10 @@ def search():
         searched = True
         patient_code = form.patient_code.data
         patient_name = form.patient_name.data
+        ma_bhyt = form.ma_bhyt.data
+        phone = form.phone.data
+        exact_match = form.exact_match.data
+        
         form_name = form.form_name.data
         start_date = form.start_date.data
         end_date = form.end_date.data
@@ -28,7 +32,15 @@ def search():
         if patient_code:
             filters.append(Patient.patient_code == patient_code)
         if patient_name:
-            filters.append(Patient.full_name.ilike(f'%{patient_name}%'))
+            if exact_match:
+                filters.append(Patient.full_name == patient_name)
+            else:
+                filters.append(Patient.full_name.ilike(f'%{patient_name}%'))
+        if ma_bhyt:
+            filters.append(Patient.bhyt.ilike(f'%{ma_bhyt}%'))
+        if phone:
+            filters.append(Patient.phone.ilike(f'%{phone}%'))
+            
         if start_date:
             filters.append(FormSubmission.submitted_at >= datetime.combine(start_date, datetime.min.time()))
         if end_date:

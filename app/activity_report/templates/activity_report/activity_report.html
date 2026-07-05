@@ -75,8 +75,19 @@
                     <td>
                         {% if submission.attachments %}
                             {% for attachment in submission.attachments %}
-                                <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank">{{ attachment.filename }}</a><br>
+                                {% set is_image = attachment.mimetype.startswith('image/') or attachment.filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+                                <div class="mb-1">
+                                    <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" 
+                                       target="_blank"
+                                       class="{% if is_image %}image-viewer-link{% endif %} btn btn-sm btn-outline-info"
+                                       data-filename="{{ attachment.filename }}">
+                                        <i class="bi bi-{% if is_image %}image{% else %}file-earmark{% endif %}"></i>
+                                        {{ attachment.filename }}
+                                    </a>
+                                </div>
                             {% endfor %}
+                        {% else %}
+                            <span class="text-muted small">Không có tệp</span>
                         {% endif %}
                     </td>
                 </tr>

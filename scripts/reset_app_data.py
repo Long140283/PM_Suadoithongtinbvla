@@ -36,18 +36,7 @@ def reset_data():
             count_pat = Patient.query.delete()
             print(f"    - Da xoa {count_pat} Patient.")
             
-            print("    - Dang xoa cac User (ngoai tru admin)...")
-            users_to_delete = User.query.filter(User.username != 'admin').all()
-            count_user = 0
-            for u in users_to_delete:
-                u.roles = []
-                u.permissions = []
-                db.session.delete(u)
-                count_user += 1
-            print(f"    - Da xoa {count_user} User.")
-            
-            count_dept = Department.query.delete()
-            print(f"    - Da xoa {count_dept} Department.")
+            print("    - Giữ lại danh sách User và Department.")
             
             db.session.commit()
             print("[OK] Da hoan tat xoa du lieu trong Database.")

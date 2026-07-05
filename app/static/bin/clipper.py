@@ -13,6 +13,15 @@ try:
 except ImportError:
     HAS_PYWIN32 = False
 
+# Force DPI Awareness for Windows to fix coordinate mismatch on scaled displays
+try:
+    windll.shcore.SetProcessDpiAwareness(1) # System DPI aware (safest for Tkinter)
+except Exception:
+    try:
+        windll.user32.SetProcessDPIAware()
+    except Exception:
+        pass
+
 def get_visible_window_rect(hwnd):
     """Get the actual visible bounds of a window using DWM API."""
     rect = RECT()
@@ -29,12 +38,6 @@ class Clipper:
         self.mode = mode
         self.target_hwnd = target_hwnd
         self.browser_hwnd = None
-        
-        # Handle high DPI on Windows
-        try:
-            windll.shcore.SetProcessDpiAwareness(1)
-        except Exception:
-            pass
 
         if HAS_PYWIN32:
             self.browser_hwnd = win32gui.GetForegroundWindow()
@@ -149,7 +152,8 @@ class Clipper:
             # Minimal delay for overlay to disappear
             time.sleep(0.05)
             try:
-                img = ImageGrab.grab(bbox=(x1, y1, x2, y2), all_screens=True)
+                # Remove all_screens=True because Tkinter coordinates are relative to primary monitor
+                img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
                 img.save(self.output_path)
                 print(f"SUCCESS:{self.output_path}")
             except Exception as e:

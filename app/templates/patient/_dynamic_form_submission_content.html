@@ -42,7 +42,13 @@
             {% if attachments %}
                 <ul>
                     {% for attachment in attachments %}
-                        <li><a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank">{{ attachment.filename }}</a></li>
+                        <li>
+                            <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id) }}" target="_blank"
+                               class="{% if attachment.mimetype.startswith('image/') %}image-viewer-link{% endif %}"
+                               data-filename="{{ attachment.filename }}">
+                                {{ attachment.filename }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}

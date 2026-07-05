@@ -238,6 +238,14 @@ def api_staff_notifications():
     return jsonify({'notifications': notifications, 'server_time': datetime.utcnow().isoformat()})
 
 
+@patient_bp.route('/api/notifications/mark_read', methods=['POST'])
+@login_required
+def mark_notifications_read():
+    current_user.last_notification_read = datetime.utcnow()
+    db.session.commit()
+    return jsonify({'status': 'success'})
+
+
 # ---------------------------------------------------------------------------
 # Helper
 # ---------------------------------------------------------------------------

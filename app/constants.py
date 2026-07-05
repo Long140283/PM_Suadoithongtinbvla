@@ -30,7 +30,9 @@ class Permissions:
     USE_SCREENSHOT_FULL      = 'use_screenshot_full'
     USE_SCREENSHOT_REGION    = 'use_screenshot_region'
     USE_SCREENSHOT_WINDOW    = 'use_screenshot_window'
-    USE_CAMERA               = 'use_camera'
+    USE_CAMERA               = 'use_camera'           # legacy – giữ để tương thích
+    USE_CAMERA_BROWSER       = 'use_camera_browser'   # chụp qua trình duyệt (getUserMedia)
+    USE_CAMERA_WINDOWS       = 'use_camera_windows'   # chụp qua OpenCV / Windows native
 
     # Tên hiển thị tiếng Việt
     DISPLAY_NAMES = {
@@ -48,7 +50,9 @@ class Permissions:
         USE_SCREENSHOT_FULL:    'Chụp toàn màn hình',
         USE_SCREENSHOT_REGION:  'Chụp theo vùng',
         USE_SCREENSHOT_WINDOW:  'Chụp theo tác vụ',
-        USE_CAMERA:             'Chụp từ Camera',
+        USE_CAMERA:             'Chụp từ Camera (legacy)',
+        USE_CAMERA_BROWSER:     'Chụp từ Camera (Trình duyệt)',
+        USE_CAMERA_WINDOWS:     'Chụp từ Camera (Windows/OpenCV)',
     }
 
 

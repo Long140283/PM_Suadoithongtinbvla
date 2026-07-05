@@ -11,10 +11,9 @@ echo ===================================================================
 echo.
 echo CANH BAO: Thao tac nay se xoa:
 echo - Du lieu benh nhan, cac phieu da nop, hinh anh/chu ky.
-echo - TOAN BO tai khoan nguoi dung (ngoai tru admin).
 echo - Nhat ky hoat dong (Audit Logs).
 echo.
-echo Luu y: Backups va cac Mau phieu dong (Templates) se duoc GIU LAI.
+echo Luu y: Tai khoan nguoi dung, Khoa phong, Backups va Templates se duoc GIU LAI.
 echo ===================================================================
 echo.
 
@@ -87,8 +86,8 @@ if exist ".pytest_cache" (
 echo.
 echo ===================================================================
 echo  HOAN THANH: Ung dung da duoc lam sach.
-echo  - Chi con lai tai khoan 'admin'.
-echo  - Mau phieu dong va cac ban sao luu duoc giu nguyen.
+echo  - Chi con lai cac du lieu nhat ky va phieu yeu cau bi xoa.
+echo  - Nguoi dung, Khoa phong va cac mau phieu duoc giu nguyen.
 echo ===================================================================
 echo.
 echo [Nhan phim bat ky de thoat]

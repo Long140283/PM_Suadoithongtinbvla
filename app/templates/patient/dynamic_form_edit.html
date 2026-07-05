@@ -98,7 +98,9 @@
                         </li>
                         {% if current_user.has_permission('use_camera') %}
                         <li><a class="dropdown-item" href="#" id="camera-open-btn"><i
-                                    class="fas fa-camera me-2"></i>Chụp từ Camera</a></li>
+                                    class="fas fa-camera me-2"></i>Chụp từ Camera (Trình duyệt)</a></li>
+                        <li><a class="dropdown-item" href="#" id="camera-native-btn"><i
+                                    class="fab fa-windows me-2"></i>Chụp từ Camera (Windows)</a></li>
                         {% endif %}
                     </ul>
 
@@ -283,7 +285,10 @@
             }, 'image/png');
         }
 
+        const cameraNativeBtn = document.getElementById('camera-native-btn');
+        
         if (cameraOpenBtn) cameraOpenBtn.onclick = (e) => { e.preventDefault(); openCamera(); };
+        if (cameraNativeBtn) cameraNativeBtn.onclick = (e) => { e.preventDefault(); ScreenshotModule.takeNativeCameraCapture(); };
         if (cameraCaptureBtn) cameraCaptureBtn.onclick = capturePhoto;
         if (cameraModalEl) cameraModalEl.addEventListener('hidden.bs.modal', stopCamera);
         if (cameraFallbackInput) {

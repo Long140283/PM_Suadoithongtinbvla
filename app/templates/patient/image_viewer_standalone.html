@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Xem ảnh - {{ attachment.filename }}{% endblock %}
+
+{% block content %}
+<style>
+    .standalone-viewer-container {
+        background: #111;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 20px;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .standalone-viewer-header {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+    }
+    .standalone-viewer-body {
+        height: 75vh;
+        position: relative;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    /* Re-use modal styles or similar logic */
+    .standalone-toolbar {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 10px 25px;
+        border-radius: 40px;
+        display: flex;
+        gap: 20px;
+        z-index: 1000;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .standalone-toolbar button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        padding: 5px;
+        min-width: 60px;
+    }
+    .standalone-toolbar button i { font-size: 1.4rem; margin-bottom: 4px; }
+    .standalone-toolbar button span { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+    .standalone-toolbar button:hover { color: #00aaff; transform: translateY(-3px); }
+    
+    #standalone-image {
+        max-width: 90%;
+        max-height: 90%;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: grab;
+    }
+    .zoom-info {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 170, 255, 0.8);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('patient.staff_dashboard') }}">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Xem ảnh: {{ attachment.filename }}</li>
+        </ol>
+    </nav>
+
+    <div class="standalone-viewer-container">
+        <div class="standalone-viewer-header">
+            <h5 class="mb-0"><i class="fas fa-image me-2"></i> {{ attachment.filename }}</h5>
+            <a href="{{ url_for('patient.serve_attachment', attachment_id=attachment.id, raw=1) }}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-external-link-alt me-1"></i> Mở file gốc
+            </a>
+        </div>
+        <div class="standalone-viewer-body">
+            <div class="zoom-info" id="s-zoom-info">100%</div>
+            <img src="{{ url_for('patient.serve_attachment', attachment_id=attachment.id, raw=1) }}" id="standalone-image" alt="{{ attachment.filename }}">
+            
+            <div class="standalone-toolbar">
+                <button id="s-rotate" title="Xoay hình">
+                    <i class="fas fa-redo"></i>
+                    <span>Xoay</span>
+                </button>
+                <button id="s-zoom-out" title="Thu nhỏ">
+                    <i class="fas fa-search-minus"></i>
+                    <span>Thu nhỏ</span>
+                </button>
+                <button id="s-zoom-in" title="Phóng to">
+                    <i class="fas fa-search-plus"></i>
+                    <span>Phóng to</span>
+                </button>
+                <button id="s-download" title="Tải về">
+                    <i class="fas fa-download"></i>
+                    <span>Tải về</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const img = document.getElementById('standalone-image');
+    const rotateBtn = document.getElementById('s-rotate');
+    const zoomInBtn = document.getElementById('s-zoom-in');
+    const zoomOutBtn = document.getElementById('s-zoom-out');
+    const downloadBtn = document.getElementById('s-download');
+    const zoomInfo = document.getElementById('s-zoom-info');
+
+    let rotation = 0;
+    let scale = 1;
+
+    function update() {
+        img.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+        zoomInfo.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    rotateBtn.addEventListener('click', () => {
+        rotation = (rotation + 90) % 360;
+        update();
+    });
+
+    zoomInBtn.addEventListener('click', () => {
+        scale += 0.2;
+        update();
+    });
+
+    zoomOutBtn.addEventListener('click', () => {
+        if (scale > 0.4) {
+            scale -= 0.2;
+            update();
+        }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.download = "{{ attachment.filename }}";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    // Simple Drag logic
+    let isDragging = false;
+    let startX, startY;
+    const body = document.querySelector('.standalone-viewer-body');
+
+    img.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        img.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        body.scrollLeft -= dx;
+        body.scrollTop -= dy;
+        startX = e.clientX;
+        startY = e.clientY;
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+        img.style.cursor = 'grab';
+    });
+});
+</script>
+{% endblock %}
